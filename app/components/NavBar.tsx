@@ -41,7 +41,7 @@ export default function NavBar() {
                         Call Now: +91 98765 43210
                     </span>
                     <span className="mx-8 font-bold text-yellow-300 tracking-wider drop-shadow-sm">
-                        Jai Jawan, Jai Kisan, Jai Vigyan
+
                     </span>
                     <span className="mx-8 border-l border-brand-600 pl-8 opacity-90">
                         Partner with India's Largest Rental Network

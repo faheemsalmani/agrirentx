@@ -9,7 +9,7 @@ export default function CustomerDashboard() {
         { name: 'Total Bookings', value: '12', icon: History, change: 'All time', color: 'text-indigo-600', bg: 'bg-indigo-100', border: 'border-indigo-200' },
         { name: 'Pending Bookings', value: '2', icon: Clock, change: 'Awaiting Vendor', color: 'text-amber-600', bg: 'bg-amber-100', border: 'border-amber-200' },
         { name: 'Completed Bookings', value: '8', icon: FileCheck, change: 'Succesfully Done', color: 'text-emerald-600', bg: 'bg-emerald-100', border: 'border-emerald-200' },
-        { name: 'Active Bookings', value: '2', icon: CalendarCheck, change: 'In Progress', color: 'text-blue-600', bg: 'bg-blue-100', border: 'border-blue-200' },
+        { name: 'My Bookings', value: '2', icon: CalendarCheck, change: 'Active Now', color: 'text-blue-600', bg: 'bg-blue-100', border: 'border-blue-200' },
     ];
 
     const recentBookings = [
