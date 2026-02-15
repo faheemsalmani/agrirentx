@@ -13,97 +13,97 @@ export default function VendorRegister() {
                 <div className="absolute bottom-10 right-10 w-96 h-96 bg-yellow-200/20 rounded-full blur-[100px]" />
             </div>
 
-            <div className="w-full max-w-2xl bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-8 sm:p-12 relative z-10">
-                <div className="mb-10 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-100 text-brand-600 mb-6 shadow-sm ring-4 ring-brand-50">
-                        <Store size={32} />
+            <div className="w-full max-w-2xl bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-6 relative z-10">
+                <div className="mb-6 text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-100 text-brand-600 mb-4 shadow-sm ring-4 ring-brand-50">
+                        <Store size={24} />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2">Vendor Partner Registration</h1>
-                    <p className="text-gray-500 max-w-md mx-auto">Join India's largest rental network. Start earning by renting out your equipment.</p>
+                    <h1 className="text-2xl font-bold text-gray-900 font-heading mb-1">Vendor Partner Registration</h1>
+                    <p className="text-gray-500 max-w-md mx-auto text-sm">Join India's largest rental network.</p>
                 </div>
 
-                <form className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Shop Details */}
                         <div className="space-y-4 md:col-span-2">
-                            <h3 className="text-sm uppercase font-semibold text-gray-400 tracking-wider flex items-center gap-2">
-                                <Store size={14} /> Shop Details
+                            <h3 className="text-xs uppercase font-semibold text-gray-400 tracking-wider flex items-center gap-2">
+                                <Store size={12} /> Shop Details
                             </h3>
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid md:grid-cols-2 gap-4">
                                 <div className="group">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Shop Name</label>
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1 ml-1">Shop Name</label>
                                     <div className="relative">
-                                        <Store className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-brand-600 transition-colors" />
-                                        <input type="text" placeholder="Agri Equipments Co." className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
+                                        <Store className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 group-focus-within:text-brand-600 transition-colors" />
+                                        <input type="text" placeholder="Agri Equipments Co." className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                                 <div className="group">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Owner Name</label>
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1 ml-1">Owner Name</label>
                                     <div className="relative">
-                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-brand-600 transition-colors" />
-                                        <input type="text" placeholder="Suraj Kumar" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
+                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 group-focus-within:text-brand-600 transition-colors" />
+                                        <input type="text" placeholder="Suraj Kumar" className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Contact Details */}
-                        <div className="space-y-4 md:col-span-2 border-t border-gray-100 pt-6">
-                            <h3 className="text-sm uppercase font-semibold text-gray-400 tracking-wider flex items-center gap-2">
-                                <Phone size={14} /> Contact Information
+                        <div className="space-y-4 md:col-span-2 border-t border-gray-100 pt-4">
+                            <h3 className="text-xs uppercase font-semibold text-gray-400 tracking-wider flex items-center gap-2">
+                                <Phone size={12} /> Contact Information
                             </h3>
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid md:grid-cols-2 gap-4">
                                 <div className="group">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Email Address</label>
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1 ml-1">Email Address</label>
                                     <div className="relative">
-                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-brand-600 transition-colors" />
-                                        <input type="email" placeholder="shop@agrirentx.com" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
+                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 group-focus-within:text-brand-600 transition-colors" />
+                                        <input type="email" placeholder="shop@agrirentx.com" className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                                 <div className="group">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Mobile Number</label>
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1 ml-1">Mobile Number</label>
                                     <div className="relative">
-                                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-brand-600 transition-colors" />
-                                        <input type="tel" maxLength={10} placeholder="9876543210" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
+                                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 group-focus-within:text-brand-600 transition-colors" />
+                                        <input type="tel" maxLength={10} placeholder="9876543210" className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                                 <div className="group md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Password</label>
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1 ml-1">Password</label>
                                     <div className="relative">
-                                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-brand-600 transition-colors" />
-                                        <input type="password" placeholder="••••••••••••" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
+                                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 group-focus-within:text-brand-600 transition-colors" />
+                                        <input type="password" placeholder="••••••••••••" className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Address Details */}
-                        <div className="space-y-4 md:col-span-2 border-t border-gray-100 pt-6">
-                            <h3 className="text-sm uppercase font-semibold text-gray-400 tracking-wider flex items-center gap-2">
-                                <MapPin size={14} /> Location
+                        <div className="space-y-4 md:col-span-2 border-t border-gray-100 pt-4">
+                            <h3 className="text-xs uppercase font-semibold text-gray-400 tracking-wider flex items-center gap-2">
+                                <MapPin size={12} /> Location
                             </h3>
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid md:grid-cols-2 gap-4">
                                 <div className="group md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Shop Address</label>
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1 ml-1">Shop Address</label>
                                     <div className="relative">
-                                        <MapPin className="absolute left-3 top-3.5 text-gray-400 h-5 w-5 group-focus-within:text-brand-600 transition-colors" />
-                                        <textarea rows={2} placeholder="Building No, Street, Landmark..." className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none resize-none" required></textarea>
+                                        <MapPin className="absolute left-3 top-3 text-gray-400 h-4 w-4 group-focus-within:text-brand-600 transition-colors" />
+                                        <textarea rows={2} placeholder="Building No, Street, Landmark..." className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none resize-none" required></textarea>
                                     </div>
                                 </div>
                                 <div className="group">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">City / Town</label>
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1 ml-1">City / Town</label>
                                     <div className="relative">
-                                        <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-brand-600 transition-colors" />
-                                        <input type="text" placeholder="Bhopal" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
+                                        <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 group-focus-within:text-brand-600 transition-colors" />
+                                        <input type="text" placeholder="Bhopal" className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                                 <div className="group">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">ID Proof Upload</label>
-                                    <div className="relative border-2 border-dashed border-gray-300 rounded-xl p-4 transition-colors hover:border-brand-400 group-hover:bg-brand-50/30 cursor-pointer flex flex-col items-center justify-center gap-2 text-center h-[52px] !py-0 !pl-0 !pr-0">
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1 ml-1">ID Proof Upload</label>
+                                    <div className="relative border-2 border-dashed border-gray-300 rounded-lg p-2 transition-colors hover:border-brand-400 group-hover:bg-brand-50/30 cursor-pointer flex flex-col items-center justify-center gap-1 text-center h-[52px] !py-0 !pl-0 !pr-0">
                                         <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" title="Upload ID Proof" accept=".jpg,.jpeg,.png" required />
                                         <div className="flex items-center gap-2 text-gray-500 pointer-events-none">
-                                            <Upload size={18} />
-                                            <span className="text-sm font-medium">Upload ID (JPG/PNG)</span>
+                                            <Upload size={16} />
+                                            <span className="text-[10px] font-medium">Upload ID</span>
                                         </div>
                                     </div>
                                 </div>
@@ -111,21 +111,20 @@ export default function VendorRegister() {
                         </div>
                     </div>
 
-                    <div className="flex items-start space-x-3 pt-4">
+                    <div className="flex items-start space-x-2 pt-2">
                         <div className="relative flex items-center h-5">
-                            <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500 transition-colors" required />
+                            <input type="checkbox" className="w-3.5 h-3.5 rounded border-gray-300 text-brand-600 focus:ring-brand-500 transition-colors" required />
                         </div>
-                        <div className="text-sm">
+                        <div className="text-xs">
                             <span className="text-gray-500">I agree to the </span>
-                            <a href="#" className="font-medium text-brand-600 hover:text-brand-500 underline decoration-brand-200 underline-offset-2">Vendor Terms & Conditions</a>
-                            <span className="text-gray-500"> and Privacy Policy.</span>
+                            <a href="#" className="font-medium text-brand-600 hover:text-brand-500 underline decoration-brand-200 underline-offset-2">Vendor Terms</a>
                         </div>
                     </div>
 
                     <div className="pt-2">
-                        <Link href="/vendor/dashboard" className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-brand-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2 group">
-                            <span>Create Vendor Account</span>
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <Link href="/vendor/dashboard" className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-brand-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2 group text-sm">
+                            <span>Create Account</span>
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
                 </form>

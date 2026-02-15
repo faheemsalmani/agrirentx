@@ -13,49 +13,49 @@ export default function VendorLogin() {
                 <div className="absolute top-1/2 -right-40 w-[600px] h-[600px] bg-yellow-200/20 rounded-full blur-[100px]" />
             </div>
 
-            <div className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-8 relative z-10 transition-all hover:shadow-brand-500/10">
-                <div className="flex flex-col items-center mb-8">
-                    <div className="bg-brand-100 p-3 rounded-xl mb-4 text-brand-700 ring-4 ring-brand-50">
-                        <Store size={32} />
+            <div className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-6 relative z-10 transition-all hover:shadow-brand-500/10">
+                <div className="flex flex-col items-center mb-6">
+                    <div className="bg-brand-100 p-2.5 rounded-xl mb-3 text-brand-700 ring-4 ring-brand-50">
+                        <Store size={28} />
                     </div>
                     <h1 className="text-2xl font-bold text-gray-900 font-heading">Vendor Login</h1>
-                    <p className="text-gray-500 text-sm mt-1">Manage your shop and equipment</p>
+                    <p className="text-gray-500 text-xs mt-1">Manage your shop and equipment</p>
                 </div>
 
-                <form className="space-y-5">
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-gray-700 ml-1">Email Address</label>
+                <form className="space-y-4">
+                    <div className="space-y-1">
+                        <label className="text-xs font-semibold text-gray-700 ml-1">Email Address</label>
                         <div className="relative group">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-600 transition-colors h-5 w-5" />
+                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-600 transition-colors h-4 w-4" />
                             <input
                                 type="email"
-                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none"
+                                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none"
                                 placeholder="shop@agrirentx.com"
                             />
                         </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-semibold text-gray-700 ml-1">Password</label>
+                    <div className="space-y-1">
+                        <label className="text-xs font-semibold text-gray-700 ml-1">Password</label>
                         <div className="relative group">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-600 transition-colors h-5 w-5" />
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-600 transition-colors h-4 w-4" />
                             <input
                                 type="password"
-                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none"
+                                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none"
                                 placeholder="••••••••••••"
                             />
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center justify-between text-xs">
                         <label className="flex items-center space-x-2 cursor-pointer group">
-                            <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500 transition-colors" />
+                            <input type="checkbox" className="w-3.5 h-3.5 rounded border-gray-300 text-brand-600 focus:ring-brand-500 transition-colors" />
                             <span className="text-gray-500 group-hover:text-gray-700 transition-colors">Remember me</span>
                         </label>
                         <a href="#" className="text-brand-600 hover:text-brand-700 font-medium transition-colors">Forgot Password?</a>
                     </div>
 
-                    <Link href="/vendor/dashboard" className="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-xl transition-all transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-brand-500/30 flex items-center justify-center space-x-2 group">
+                    <Link href="/vendor/dashboard" className="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 rounded-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-brand-500/30 flex items-center justify-center space-x-2 group text-sm">
                         <span>Log In to Dashboard</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>

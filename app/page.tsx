@@ -6,7 +6,6 @@ import About from './components/About';
 import Testimonials from './components/Testimonials';
 import LeadCapture from './components/LeadCapture';
 import Footer from './components/Footer';
-import DebugPanel from './components/DebugPanel';
 
 export default function Home() {
   return (
@@ -15,11 +14,9 @@ export default function Home() {
       <Hero />
       <Stats />
       <About />
-
       <Testimonials />
       <LeadCapture />
       <Footer />
-      <DebugPanel />
     </main>
   );
 }

@@ -12,68 +12,68 @@ export default function AddCustomer() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
-                <form className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+                <form className="space-y-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         <div className="space-y-4 md:col-span-2">
                             <h3 className="text-xs uppercase font-bold text-gray-400 tracking-wider flex items-center gap-2 pb-2 border-b border-gray-100">
-                                <User size={14} /> Personal Details
+                                <User size={12} /> Personal Details
                             </h3>
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid md:grid-cols-2 gap-4">
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
-                                    <input type="text" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1">Full Name</label>
+                                    <input type="text" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
                                 </div>
                             </div>
                         </div>
 
                         <div className="space-y-4 md:col-span-2">
                             <h3 className="text-xs uppercase font-bold text-gray-400 tracking-wider flex items-center gap-2 pb-2 border-b border-gray-100">
-                                <Phone size={14} /> Contact Details
+                                <Phone size={12} /> Contact Details
                             </h3>
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-                                    <input type="email" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1">Email</label>
+                                    <input type="email" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Mobile</label>
-                                    <input type="tel" maxLength={10} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1">Mobile</label>
+                                    <input type="tel" maxLength={10} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
-                                    <input type="password" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1">Password</label>
+                                    <input type="password" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
                                 </div>
                             </div>
                         </div>
 
                         <div className="space-y-4 md:col-span-2">
                             <h3 className="text-xs uppercase font-bold text-gray-400 tracking-wider flex items-center gap-2 pb-2 border-b border-gray-100">
-                                <MapPin size={14} /> Location & ID
+                                <MapPin size={12} /> Location & ID
                             </h3>
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid md:grid-cols-2 gap-4">
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Address</label>
-                                    <textarea rows={2} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none resize-none" required></textarea>
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1">Address</label>
+                                    <textarea rows={2} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none resize-none" required></textarea>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5">City</label>
-                                    <input type="text" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1">City</label>
+                                    <input type="text" className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5">ID Proof</label>
-                                    <input type="file" className="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all" required />
+                                    <label className="block text-xs font-semibold text-gray-700 mb-1">ID Proof</label>
+                                    <input type="file" className="block w-full text-xs text-gray-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all" required />
                                 </div>
                             </div>
                         </div>
 
                     </div>
 
-                    <div className="pt-4 flex justify-end">
-                        <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-blue-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center space-x-2">
+                    <div className="pt-2 flex justify-end">
+                        <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-lg hover:shadow-blue-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center space-x-2 text-sm">
                             <span>Create Customer</span>
-                            <Check className="w-5 h-5" />
+                            <Check className="w-4 h-4" />
                         </button>
                     </div>
                 </form>
