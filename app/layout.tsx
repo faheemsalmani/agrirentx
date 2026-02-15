@@ -7,7 +7,7 @@ const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 export const metadata: Metadata = {
   title: 'AgriRentX - Premium Agriculture Equipment Rental',
-  description: 'India\'s leading agriculture equipment rental service. Jai Jawan, Jai Kisan, Jai Vigyan.',
+  description: 'India\'s leading agriculture equipment rental service.',
 };
 
 export default function RootLayout({

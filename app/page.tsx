@@ -2,7 +2,7 @@ import NavBar from './components/NavBar';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
 import About from './components/About';
-import Services from './components/Services';
+
 import Testimonials from './components/Testimonials';
 import LeadCapture from './components/LeadCapture';
 import Footer from './components/Footer';
@@ -15,7 +15,7 @@ export default function Home() {
       <Hero />
       <Stats />
       <About />
-      <Services />
+
       <Testimonials />
       <LeadCapture />
       <Footer />

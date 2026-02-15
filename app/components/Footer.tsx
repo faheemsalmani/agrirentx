@@ -41,7 +41,7 @@ export default function Footer() {
 
                 <div className="border-t border-brand-900 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
                     <p>© 2024 AgriRentX Private Limited. All rights reserved.</p>
-                    <p className="mt-2 md:mt-0 font-medium">Jai Jawan, Jai Kisan, Jai Vigyan</p>
+                    <p className="mt-2 md:mt-0 font-medium"></p>
                 </div>
             </div>
         </footer>
