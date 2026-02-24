@@ -5,12 +5,12 @@ import { useState } from 'react';
 
 export default function BrowseEquipment() {
     const equipments = [
-        { id: 1, name: 'John Deere 5050D', type: 'Tractor', price: 1200, location: 'Punjab', image: 'https://images.unsplash.com/photo-1595115206963-cdaeb8ee2913?auto=format&fit=crop&q=80&w=300&h=200', available: true },
-        { id: 2, name: 'Kubota Harvester', type: 'Harvester', price: 5000, location: 'Haryana', image: 'https://images.unsplash.com/photo-1530267981375-f0de93fe1e91?auto=format&fit=crop&q=80&w=300&h=200', available: true },
-        { id: 3, name: 'Rotavator 6 Feet', type: 'Rotavator', price: 800, location: 'Punjab', image: 'https://plus.unsplash.com/premium_photo-1664303847960-586318f59035?auto=format&fit=crop&q=80&w=300&h=200', available: true },
-        { id: 4, name: 'Sonalika 745', type: 'Tractor', price: 1100, location: 'UP', image: 'https://images.unsplash.com/photo-1605218457336-92748b6c4533?auto=format&fit=crop&q=80&w=300&h=200', available: false },
-        { id: 5, name: 'Seed Drill', type: 'Seeder', price: 500, location: 'Punjab', image: 'https://images.unsplash.com/photo-1625246333195-58197ebd0031?auto=format&fit=crop&q=80&w=300&h=200', available: true },
-        { id: 6, name: 'Mahindra Thresher', type: 'Thresher', price: 1500, location: 'Haryana', image: 'https://images.unsplash.com/photo-1515266591878-5a89d1e9e03d?auto=format&fit=crop&q=80&w=300&h=200', available: true },
+        { id: 1, name: 'John Deere 5050D', type: 'Tractor', price: 1200, location: 'Punjab', image: '/Sonalika 745.jpg', available: true },
+        { id: 2, name: 'Kubota Harvester', type: 'Harvester', price: 5000, location: 'Haryana', image: '/Kubota Harvester.jpg', available: true },
+        { id: 3, name: 'Rotavator 6 Feet', type: 'Rotavator', price: 800, location: 'Punjab', image: '/Rotavator 6 Feet.jpg', available: true },
+        { id: 4, name: 'Sonalika 745', type: 'Tractor', price: 1100, location: 'UP', image: '/Sonalika 745.jpg', available: false },
+        { id: 5, name: 'Seed Drill', type: 'Seeder', price: 500, location: 'Punjab', image: '/Seed Drill.jpg', available: true },
+        { id: 6, name: 'Mahindra Thresher', type: 'Thresher', price: 1500, location: 'Haryana', image: '/Mahindra Thresher.jpg', available: true },
     ];
 
     const [searchTerm, setSearchTerm] = useState('');

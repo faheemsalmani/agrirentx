@@ -1,13 +1,34 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Tractor, CalendarCheck, PackageCheck, Truck } from 'lucide-react';
 import Link from 'next/link';
+import { getVendorStats } from '@/app/actions/stats';
 
 export default function VendorDashboard() {
+    const [statsData, setStatsData] = useState({
+        totalEquipments: 0,
+        availableEquipments: 0,
+        bookedEquipments: 0
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchStats() {
+            setLoading(true);
+            // Assuming vendor_id 1 for now, or fetch all if not logged in
+            // In a real app, this would come from the session
+            const data = await getVendorStats(1);
+            setStatsData(data);
+            setLoading(false);
+        }
+        fetchStats();
+    }, []);
+
     const stats = [
-        { name: 'Total Equipments', value: '18', icon: Tractor, change: '+2', color: 'text-brand-600', bg: 'bg-brand-100' },
-        { name: 'Available for Rent', value: '12', icon: PackageCheck, change: 'Now', color: 'text-emerald-600', bg: 'bg-emerald-100' },
-        { name: 'Currently Booked', value: '6', icon: CalendarCheck, change: '+1', color: 'text-orange-600', bg: 'bg-orange-100' },
+        { name: 'Total Equipments', value: statsData.totalEquipments.toString(), icon: Tractor, change: '+0', color: 'text-brand-600', bg: 'bg-brand-100' },
+        { name: 'Available for Rent', value: statsData.availableEquipments.toString(), icon: PackageCheck, change: 'Now', color: 'text-emerald-600', bg: 'bg-emerald-100' },
+        { name: 'Currently Booked', value: statsData.bookedEquipments.toString(), icon: CalendarCheck, change: 'Active', color: 'text-orange-600', bg: 'bg-orange-100' },
     ];
 
     return (

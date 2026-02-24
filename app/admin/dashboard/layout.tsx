@@ -1,9 +1,9 @@
 'use client';
 
-import { LayoutDashboard, Users, Store, Tractor, Plus, LogOut, Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { LayoutDashboard, Users, Store, Tractor, LogOut, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 
 export default function AdminLayout({
     children,
@@ -12,10 +12,15 @@ export default function AdminLayout({
 }) {
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const sidebarLinks = [
         { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-        { name: 'Add Vendor', href: '/admin/dashboard/add-vendor', icon: Store },
+        { name: 'Vendors', href: '/admin/dashboard/vendors', icon: Store },
         { name: 'Add Customer', href: '/admin/dashboard/add-customer', icon: Users },
         { name: 'Add Equipment', href: '/admin/dashboard/add-equipment', icon: Tractor },
     ];
@@ -45,14 +50,18 @@ export default function AdminLayout({
                     <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Main Menu</p>
                     {sidebarLinks.map((link) => {
                         const Icon = link.icon;
-                        const isActive = pathname === link.href;
+                        const isActive = mounted && (
+                            link.href === '/admin/dashboard'
+                                ? pathname === link.href
+                                : pathname.startsWith(link.href)
+                        );
                         return (
                             <Link
                                 key={link.name}
                                 href={link.href}
                                 className={`flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all group ${isActive
-                                        ? 'bg-brand-600 text-white shadow-lg shadow-brand-900/20'
-                                        : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                                    ? 'bg-brand-600 text-white shadow-lg shadow-brand-900/20'
+                                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                                     }`}
                             >
                                 <Icon size={20} className={`${isActive ? 'text-white' : 'text-slate-500 group-hover:text-brand-400'} mr-3 transition-colors`} />

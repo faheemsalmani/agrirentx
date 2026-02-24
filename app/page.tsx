@@ -6,6 +6,7 @@ import About from './components/About';
 import Testimonials from './components/Testimonials';
 import LeadCapture from './components/LeadCapture';
 import Footer from './components/Footer';
+import EquipmentSection from './components/EquipmentSection';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Hero />
       <Stats />
       <About />
+      <EquipmentSection />
       <Testimonials />
       <LeadCapture />
       <Footer />

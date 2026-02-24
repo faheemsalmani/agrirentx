@@ -1,9 +1,9 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { LayoutDashboard, Tractor, Plus, Settings, LogOut, Trash2, Edit, Menu, X, Store, Users } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 
 export default function VendorLayout({
     children,
@@ -12,6 +12,11 @@ export default function VendorLayout({
 }) {
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const sidebarLinks = [
         { name: 'Dashboard', href: '/vendor/dashboard', icon: LayoutDashboard },
@@ -46,7 +51,11 @@ export default function VendorLayout({
                     <p className="px-4 text-xs font-semibold text-brand-400/80 uppercase tracking-wider mb-2">Management</p>
                     {sidebarLinks.map((link) => {
                         const Icon = link.icon;
-                        const isActive = pathname === link.href || (link.name === 'Update Equipment' && pathname.includes('update')) || (link.name === 'Delete Equipment' && pathname.includes('delete'));
+                        const isActive = mounted && (
+                            pathname === link.href ||
+                            (link.name === 'Update Equipment' && pathname?.includes('update')) ||
+                            (link.name === 'Delete Equipment' && pathname?.includes('delete'))
+                        );
                         return (
                             <Link
                                 key={link.name}

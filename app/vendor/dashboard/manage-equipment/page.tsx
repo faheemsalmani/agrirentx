@@ -1,19 +1,28 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Tractor, Edit, Trash2, MoreHorizontal, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { getVendorEquipments } from '@/app/actions/stats';
 
 export default function ManageEquipment() {
-    const [equipments, setEquipments] = useState([
-        { id: 1, name: 'Swaraj 855 FE', type: 'Tractor', price: 1800, status: 'Available', image: null },
-        { id: 2, name: 'Kartar 4000', type: 'Harvester', price: 4500, status: 'Booked', image: null },
-        { id: 3, name: 'Rotavator 7ft', type: 'Rotavator', price: 600, status: 'Available', image: null },
-    ]);
+    const [equipments, setEquipments] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchEquipments() {
+            setLoading(true);
+            // Assuming vendor_id 1
+            const data = await getVendorEquipments(1);
+            setEquipments(data);
+            setLoading(false);
+        }
+        fetchEquipments();
+    }, []);
 
     const handleDelete = (id: number) => {
         if (confirm('Are you sure you want to delete this equipment?')) {
-            setEquipments(equipments.filter(e => e.id !== id));
+            setEquipments(equipments.filter(e => e.equipment_id !== id));
         }
     }
 
@@ -42,24 +51,26 @@ export default function ManageEquipment() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {equipments.map((item) => (
-                                <tr key={item.id} className="group hover:bg-brand-50/30 transition-colors">
+                            {loading ? (
+                                <tr><td colSpan={5} className="px-6 py-12 text-center text-gray-400 italic">Loading equipment...</td></tr>
+                            ) : equipments.map((item) => (
+                                <tr key={item.equipment_id} className="group hover:bg-brand-50/30 transition-colors">
                                     <td className="px-6 py-4">
                                         <div className="w-16 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
                                             <ImageIcon size={20} />
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <div className="font-semibold text-gray-900">{item.name}</div>
+                                        <div className="font-semibold text-gray-900">{item.equipment_name}</div>
                                         <div className="text-xs text-gray-500">{item.type}</div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <div className="font-medium text-gray-900">₹{item.price}</div>
+                                        <div className="font-medium text-gray-900">₹{item.price_per_day}</div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.status === 'Available' ? 'bg-emerald-100 text-emerald-800' : 'bg-orange-100 text-orange-800'
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.available ? 'bg-emerald-100 text-emerald-800' : 'bg-orange-100 text-orange-800'
                                             }`}>
-                                            {item.status}
+                                            {item.available ? 'Available' : 'Unavailable'}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
@@ -70,7 +81,7 @@ export default function ManageEquipment() {
                                             <button
                                                 className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                                                 title="Delete"
-                                                onClick={() => handleDelete(item.id)}
+                                                onClick={() => handleDelete(item.equipment_id)}
                                             >
                                                 <Trash2 size={16} />
                                             </button>

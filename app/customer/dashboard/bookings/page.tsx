@@ -1,7 +1,8 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Calendar, CheckCircle2, Clock, XCircle, Search } from 'lucide-react';
-import { useState } from 'react';
+import { getRecentBookings } from '@/app/actions/stats';
 
 // Since I don't know if shadcn is installed, I'll build a custom Tab component to be safe and "minimal code"
 function CustomTabs({ tabs, activeTab, setActiveTab }: { tabs: string[], activeTab: string, setActiveTab: (t: string) => void }) {
@@ -25,13 +26,19 @@ function CustomTabs({ tabs, activeTab, setActiveTab }: { tabs: string[], activeT
 
 export default function BookingsPage() {
     const [activeTab, setActiveTab] = useState('All');
+    const [bookings, setBookings] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const bookings = [
-        { id: 101, equipment: 'John Deere Tractor', vendor: 'Punjab Agro', date: '2024-10-24', status: 'Pending', amount: 1200, image: 'https://images.unsplash.com/photo-1595115206963-cdaeb8ee2913?auto=format&fit=crop&q=80&w=100&h=100' },
-        { id: 102, equipment: 'Rotavator', vendor: 'Haryana Tools', date: '2024-10-20', status: 'Completed', amount: 800, image: 'https://plus.unsplash.com/premium_photo-1664303847960-586318f59035?auto=format&fit=crop&q=80&w=100&h=100' },
-        { id: 103, equipment: 'Harvester', vendor: 'Punjab Agro', date: '2024-10-15', status: 'Completed', amount: 5000, image: 'https://images.unsplash.com/photo-1530267981375-f0de93fe1e91?auto=format&fit=crop&q=80&w=100&h=100' },
-        { id: 104, equipment: 'Seed Drill', vendor: 'Kisan Seva', date: '2024-10-25', status: 'Active', amount: 500, image: 'https://images.unsplash.com/photo-1625246333195-58197ebd0031?auto=format&fit=crop&q=80&w=100&h=100' },
-    ];
+    useEffect(() => {
+        async function fetchBookings() {
+            setLoading(true);
+            // Assuming customer_id 1
+            const data = await getRecentBookings(20, 1);
+            setBookings(data);
+            setLoading(false);
+        }
+        fetchBookings();
+    }, []);
 
     const filteredBookings = activeTab === 'All'
         ? bookings
@@ -48,17 +55,20 @@ export default function BookingsPage() {
             />
 
             <div className="space-y-4">
-                {filteredBookings.map((booking) => (
-                    <div key={booking.id} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4 items-start md:items-center hover:shadow-md transition-shadow">
-                        <div className="h-20 w-20 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0">
-                            <img src={booking.image} alt={booking.equipment} className="h-full w-full object-cover" />
+                {loading ? (
+                    <div className="text-center py-12 text-gray-500">Loading your bookings...</div>
+                ) : filteredBookings.length > 0 ? filteredBookings.map((booking) => (
+                    <div key={booking.booking_id} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4 items-start md:items-center hover:shadow-md transition-shadow">
+                        <div className="h-20 w-20 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0 flex items-center justify-center text-emerald-600">
+                            {/* Use a placeholder icon if image_url is missing */}
+                            <Calendar size={32} />
                         </div>
 
                         <div className="flex-1 min-w-0">
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <h3 className="font-bold text-gray-900 text-lg truncate">{booking.equipment}</h3>
-                                    <p className="text-sm text-gray-500">Vendor: {booking.vendor}</p>
+                                    <h3 className="font-bold text-gray-900 text-lg truncate">{booking.equipments?.equipment_name || 'Generic Equipment'}</h3>
+                                    <p className="text-sm text-gray-500">Booking ID: #{1000 + booking.booking_id}</p>
                                 </div>
                                 <div className="text-right block md:hidden">
                                     <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${booking.status === 'Completed' ? 'bg-green-50 text-green-700' :
@@ -74,9 +84,9 @@ export default function BookingsPage() {
                             <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
                                 <div className="flex items-center gap-1">
                                     <Calendar size={14} className="text-gray-400" />
-                                    <span>{booking.date}</span>
+                                    <span>{new Date(booking.start_date).toLocaleDateString()} - {new Date(booking.end_date).toLocaleDateString()}</span>
                                 </div>
-                                <div className="font-bold text-emerald-600">₹{booking.amount}</div>
+                                <div className="font-bold text-emerald-600">₹{booking.total_price}</div>
                             </div>
                         </div>
 
@@ -92,7 +102,11 @@ export default function BookingsPage() {
                             </span>
                         </div>
                     </div>
-                ))}
+                )) : (
+                    <div className="text-center py-12 bg-white rounded-2xl border border-dashed border-slate-200">
+                        <p className="text-gray-500 italic">No bookings found for this category.</p>
+                    </div>
+                )}
             </div>
         </div>
     );
