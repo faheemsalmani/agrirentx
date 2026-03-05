@@ -4,25 +4,35 @@ import { useEffect, useState } from 'react';
 import { Tractor, Edit, Trash2, MoreHorizontal, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import { getVendorEquipments } from '@/app/actions/stats';
+import { deleteEquipment } from '@/app/actions/equipment';
 
 export default function ManageEquipment() {
     const [equipments, setEquipments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
 
     useEffect(() => {
-        async function fetchEquipments() {
-            setLoading(true);
-            // Assuming vendor_id 1
-            const data = await getVendorEquipments(1);
-            setEquipments(data);
-            setLoading(false);
-        }
         fetchEquipments();
     }, []);
 
-    const handleDelete = (id: number) => {
+    async function fetchEquipments() {
+        setLoading(true);
+        // Assuming vendor_id 1
+        const data = await getVendorEquipments(1);
+        setEquipments(data);
+        setLoading(false);
+    }
+
+    const handleDelete = async (id: number) => {
         if (confirm('Are you sure you want to delete this equipment?')) {
-            setEquipments(equipments.filter(e => e.equipment_id !== id));
+            setDeletingId(id);
+            const res = await deleteEquipment(id, 1);
+            if (res.success) {
+                setEquipments(equipments.filter(e => e.equipment_id !== id));
+            } else {
+                alert('Failed to delete equipment: ' + res.message);
+            }
+            setDeletingId(null);
         }
     }
 
@@ -54,10 +64,14 @@ export default function ManageEquipment() {
                             {loading ? (
                                 <tr><td colSpan={5} className="px-6 py-12 text-center text-gray-400 italic">Loading equipment...</td></tr>
                             ) : equipments.map((item) => (
-                                <tr key={item.equipment_id} className="group hover:bg-brand-50/30 transition-colors">
+                                <tr key={item.equipment_id} className={`group hover:bg-brand-50/30 transition-colors ${deletingId === item.equipment_id ? 'opacity-50' : ''}`}>
                                     <td className="px-6 py-4">
-                                        <div className="w-16 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                                            <ImageIcon size={20} />
+                                        <div className="w-16 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 overflow-hidden">
+                                            {item.image_url && !item.image_url.startsWith('placeholder') ? (
+                                                <img src={item.image_url} alt={item.equipment_name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <ImageIcon size={20} />
+                                            )}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
@@ -75,13 +89,15 @@ export default function ManageEquipment() {
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end space-x-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                                            <button className="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors" title="Update">
+                                            <button className="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors" title="Update"
+                                                onClick={() => alert('Update flow to be implemented based on UI design')}>
                                                 <Edit size={16} />
                                             </button>
                                             <button
-                                                className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                                className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
                                                 title="Delete"
                                                 onClick={() => handleDelete(item.equipment_id)}
+                                                disabled={deletingId === item.equipment_id}
                                             >
                                                 <Trash2 size={16} />
                                             </button>
@@ -89,7 +105,7 @@ export default function ManageEquipment() {
                                     </td>
                                 </tr>
                             ))}
-                            {equipments.length === 0 && (
+                            {equipments.length === 0 && !loading && (
                                 <tr>
                                     <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
                                         No equipment listed yet. <Link href="/vendor/dashboard/add-equipment" className="text-brand-600 hover:underline">Add your first item</Link>

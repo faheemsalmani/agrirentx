@@ -39,23 +39,27 @@ const seedData = async () => {
         user_metadata: { role: 'admin', username: username }
     });
 
-    if (adminError) {
+    if (adminError && !adminError.message.includes("already been registered") && !adminError.message.includes("user already exists")) {
         console.error(`Error creating auth for ${email}:`, adminError.message);
     } else {
-        console.log(`Admin Auth created successfully for ${email}. ID:`, adminUser.user.id);
+        if (adminError) {
+            console.log(`Auth user ${email} already exists. Proceeding to insert/update in public.admin.`);
+        } else {
+            console.log(`Admin Auth created successfully for ${email}. ID:`, adminUser.user.id);
+        }
 
         const { error: insertAdminError } = await supabase
             .from('admin')
-            .insert({
+            .upsert({
                 email: email,
                 password: password
-            });
+            }, { onConflict: 'email' });
 
         if (insertAdminError) {
-            console.log(`Note: Could not insert ${email} into public.admin.`);
+            console.log(`Note: Could not insert/upsert ${email} into public.admin.`);
             console.error('Details:', insertAdminError.message);
         } else {
-            console.log(`Admin record inserted into public.admin table for ${email}.`);
+            console.log(`Admin record inserted/upserted into public.admin table for ${email}.`);
         }
     }
 

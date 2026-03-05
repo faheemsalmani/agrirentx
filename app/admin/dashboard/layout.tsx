@@ -21,8 +21,8 @@ export default function AdminLayout({
     const sidebarLinks = [
         { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
         { name: 'Vendors', href: '/admin/dashboard/vendors', icon: Store },
-        { name: 'Add Customer', href: '/admin/dashboard/add-customer', icon: Users },
-        { name: 'Add Equipment', href: '/admin/dashboard/add-equipment', icon: Tractor },
+        { name: 'Customers', href: '/admin/dashboard/customers', icon: Users },
+        { name: 'Equipment', href: '/admin/dashboard/equipment', icon: Tractor },
     ];
 
     return (

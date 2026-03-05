@@ -7,7 +7,8 @@ DROP TABLE IF EXISTS equipments CASCADE;
 DROP TABLE IF EXISTS customers CASCADE;
 DROP TABLE IF EXISTS vendors CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
-
+DROP TABLE IF EXISTS bookings CASCADE;
+DROP TABLE If EXISTS reviews CASCADE 
 -- ================= ADMIN TABLE =================
 CREATE TABLE admin (
     admin_id SERIAL PRIMARY KEY,
@@ -47,7 +48,7 @@ CREATE TABLE customers (
 -- ================= EQUIPMENT TABLE =================
 CREATE TABLE equipments (
     equipment_id SERIAL PRIMARY KEY,
-    vendor_id INT NOT NULL,
+    vendor_id INT ,
 
     equipment_name VARCHAR(100) NOT NULL,
     type VARCHAR(50) NOT NULL,
@@ -55,9 +56,8 @@ CREATE TABLE equipments (
     price_per_day NUMERIC(10,2) NOT NULL,
     image_url VARCHAR(255) NOT NULL,
     available BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (vendor_id) REFERENCES vendors(vendor_id) ON DELETE CASCADE
-
+    status VARCHAR(20) DEFAULT 'Pending', -- Pending, Approved, Rejected
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 -- ================= BOOKINGS TABLE =================
 CREATE TABLE bookings (

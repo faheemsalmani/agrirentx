@@ -1,15 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus, Search, Store, Check, X, CheckCircle2, XCircle } from 'lucide-react';
+import { Plus, Search, Users, Check, X, CheckCircle2, XCircle } from 'lucide-react';
 import Link from 'next/link';
-import { getAllVendors } from '@/app/actions/stats';
+import { getAllCustomers } from '@/app/actions/stats';
+import { updateCustomerStatus } from '@/app/actions/admin';
 
-// Keep the interface to match our front-end table
-interface Vendor {
-    vendor_id: number;
-    shop_name: string;
-    owner_name: string;
+interface Customer {
+    customer_id: number;
+    name: string;
     email: string;
     mobile_number: string;
     city: string;
@@ -18,57 +17,60 @@ interface Vendor {
     created_at: string;
 }
 
-export default function VendorsPage() {
-    const [vendors, setVendors] = useState<Vendor[]>([]);
+export default function CustomersPage() {
+    const [customers, setCustomers] = useState<Customer[]>([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchVendors() {
-            setLoading(true);
-            try {
-                const data = await getAllVendors();
-                if (data && Array.isArray(data)) {
-                    // Mapped missing DB columns safely so UI does not crash or hide data
-                    const formattedData = data.map((v: any) => ({
-                        ...v,
-                        status: v.status || 'Pending',
-                        id_proof: v.id_proof || ''
-                    }));
-                    setVendors(formattedData as Vendor[]);
-                } else {
-                    setVendors([]);
-                }
-            } catch (err) {
-                console.error('Failed to fetch vendors', err);
-                setVendors([]);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchVendors();
+        fetchCustomers();
     }, []);
 
-    const filtered = vendors.filter((v) => {
+    async function fetchCustomers() {
+        setLoading(true);
+        try {
+            const data = await getAllCustomers();
+            if (data && Array.isArray(data)) {
+                const formattedData = data.map((v: any) => ({
+                    ...v,
+                    status: v.status || 'Pending',
+                    id_proof: v.id_proof || ''
+                }));
+                setCustomers(formattedData as Customer[]);
+            } else {
+                setCustomers([]);
+            }
+        } catch (err) {
+            console.error('Failed to fetch customers', err);
+            setCustomers([]);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const filtered = customers.filter((c) => {
         const q = search.toLowerCase();
         return (
-            (v.shop_name && v.shop_name.toLowerCase().includes(q)) ||
-            (v.owner_name && v.owner_name.toLowerCase().includes(q)) ||
-            (v.email && v.email.toLowerCase().includes(q)) ||
-            (v.mobile_number && v.mobile_number.includes(q)) ||
-            (v.city && v.city.toLowerCase().includes(q)) ||
-            (v.status && v.status.toLowerCase().includes(q))
+            (c.name && c.name.toLowerCase().includes(q)) ||
+            (c.email && c.email.toLowerCase().includes(q)) ||
+            (c.mobile_number && c.mobile_number.includes(q)) ||
+            (c.city && c.city.toLowerCase().includes(q)) ||
+            (c.status && c.status.toLowerCase().includes(q))
         );
     });
 
-    const handleApprove = (id: number) => {
-        setVendors(vendors.map(v => v.vendor_id === id ? { ...v, status: 'Approved' } : v));
-        // Add actual backend approve logic here if needed
+    const handleApprove = async (id: number) => {
+        // Optimistic update
+        setCustomers(customers.map(c => c.customer_id === id ? { ...c, status: 'Approved' } : c));
+        // Server update
+        await updateCustomerStatus(id, 'Approved');
     };
 
-    const handleReject = (id: number) => {
-        setVendors(vendors.map(v => v.vendor_id === id ? { ...v, status: 'Rejected' } : v));
-        // Add actual backend reject logic here if needed
+    const handleReject = async (id: number) => {
+        // Optimistic update
+        setCustomers(customers.map(c => c.customer_id === id ? { ...c, status: 'Rejected' } : c));
+        // Server update
+        await updateCustomerStatus(id, 'Rejected');
     };
 
     return (
@@ -77,18 +79,18 @@ export default function VendorsPage() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900 font-heading flex items-center gap-2">
-                        <Store className="w-6 h-6 text-brand-600" />
-                        Vendors
+                        <Users className="w-6 h-6 text-brand-600" />
+                        Customers
                     </h1>
-                    <p className="text-sm text-gray-500 mt-1">Manage all vendors available in the system</p>
+                    <p className="text-sm text-gray-500 mt-1">Manage all customers available in the system</p>
                 </div>
-                {/* Task 5: Add Vendors button */}
+                {/* Task 5: Add Customer button */}
                 <Link
-                    href="/admin/dashboard/add-vendor"
-                    className="inline-flex items-center gap-2 bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-brand-700 active:bg-brand-800 transition-colors shadow-sm self-start sm:self-auto"
+                    href="/admin/dashboard/add-customer"
+                    className="inline-flex items-center gap-2 bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-brand-700 hover:brightness-95 active:bg-brand-800 transition-all shadow-sm self-start sm:self-auto"
                 >
                     <Plus className="w-4 h-4" />
-                    Add Vendors
+                    Add Customer
                 </Link>
             </div>
 
@@ -112,10 +114,8 @@ export default function VendorsPage() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm">
                         <thead>
-                            {/* Task 3 & 6: Show explicit columns, must be visible */}
                             <tr className="border-b border-slate-100 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-slate-50/50">
-                                <th className="px-5 py-4">Shop Name</th>
-                                <th className="px-5 py-4">Owner Name</th>
+                                <th className="px-5 py-4">Name</th>
                                 <th className="px-5 py-4">Email</th>
                                 <th className="px-5 py-4">Mobile</th>
                                 <th className="px-5 py-4">City</th>
@@ -126,30 +126,29 @@ export default function VendorsPage() {
                         <tbody className="divide-y divide-slate-100 text-gray-700">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={7} className="px-5 py-16 text-center text-gray-400">
+                                    <td colSpan={6} className="px-5 py-16 text-center text-gray-400">
                                         <div className="flex flex-col items-center gap-2">
                                             <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
-                                            <span className="text-sm">Loading vendors…</span>
+                                            <span className="text-sm">Loading customers…</span>
                                         </div>
                                     </td>
                                 </tr>
                             ) : filtered.length === 0 ? (
                                 <tr>
-                                    <td colSpan={7} className="px-5 py-16 text-center text-gray-500 text-sm">
-                                        No vendors found.
+                                    <td colSpan={6} className="px-5 py-16 text-center text-gray-500 text-sm">
+                                        No customers Found
                                     </td>
                                 </tr>
                             ) : (
-                                filtered.map((v) => (
-                                    <tr key={v.vendor_id} className="hover:bg-slate-50/60 transition-colors">
-                                        <td className="px-5 py-4 font-semibold text-gray-900 whitespace-nowrap">{v.shop_name}</td>
-                                        <td className="px-5 py-4 whitespace-nowrap">{v.owner_name}</td>
-                                        <td className="px-5 py-4 text-gray-500">{v.email}</td>
-                                        <td className="px-5 py-4 whitespace-nowrap text-gray-600">{v.mobile_number}</td>
-                                        <td className="px-5 py-4 text-gray-600">{v.city}</td>
+                                filtered.map((c) => (
+                                    <tr key={c.customer_id} className="hover:bg-slate-50/60 transition-colors">
+                                        <td className="px-5 py-4 font-semibold text-gray-900 whitespace-nowrap">{c.name}</td>
+                                        <td className="px-5 py-4 text-gray-500">{c.email}</td>
+                                        <td className="px-5 py-4 whitespace-nowrap text-gray-600">{c.mobile_number}</td>
+                                        <td className="px-5 py-4 text-gray-600">{c.city}</td>
                                         <td className="px-5 py-4">
-                                            {v.id_proof ? (
-                                                <a href={v.id_proof || '#'} target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs">
+                                            {c.id_proof ? (
+                                                <a href={c.id_proof || '#'} target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs">
                                                     View Doc
                                                 </a>
                                             ) : (
@@ -157,38 +156,37 @@ export default function VendorsPage() {
                                             )}
                                         </td>
                                         <td className="px-5 py-4 whitespace-nowrap">
-                                            {/* Task 3 & 6: Display status clearly. (rejected [red color with icon] and approved [green color with icon]) */}
-                                            {v.status === 'Approved' && (
+                                            {c.status === 'Approved' && (
                                                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
                                                     <CheckCircle2 className="w-3.5 h-3.5" /> Approved
                                                 </span>
                                             )}
-                                            {v.status === 'Rejected' && (
+                                            {c.status === 'Rejected' && (
                                                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold border border-red-100">
                                                     <XCircle className="w-3.5 h-3.5" /> Rejected
                                                 </span>
                                             )}
-                                            {v.status === 'Pending' && (
+                                            {c.status === 'Pending' && (
                                                 <div className="flex items-center gap-2">
                                                     <button
-                                                        onClick={() => handleApprove(v.vendor_id)}
+                                                        onClick={() => handleApprove(c.customer_id)}
                                                         className="p-1.5 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white transition-colors group border border-emerald-100"
-                                                        title="Approve Vendor"
+                                                        title="Approve Customer"
                                                     >
                                                         <Check className="w-4 h-4" />
                                                     </button>
                                                     <button
-                                                        onClick={() => handleReject(v.vendor_id)}
+                                                        onClick={() => handleReject(c.customer_id)}
                                                         className="p-1.5 rounded-full bg-red-50 text-red-600 hover:bg-red-500 hover:text-white transition-colors group border border-red-100"
-                                                        title="Reject Vendor"
+                                                        title="Reject Customer"
                                                     >
                                                         <X className="w-4 h-4" />
                                                     </button>
                                                 </div>
                                             )}
-                                            {!['Approved', 'Rejected', 'Pending'].includes(v.status || '') && (
+                                            {!['Approved', 'Rejected', 'Pending'].includes(c.status || '') && (
                                                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-semibold">
-                                                    {v.status}
+                                                    {c.status}
                                                 </span>
                                             )}
                                         </td>
@@ -202,7 +200,7 @@ export default function VendorsPage() {
                 {/* Footer count */}
                 {!loading && (
                     <div className="px-5 py-4 border-t border-slate-100 text-xs text-gray-500 flex justify-end items-center bg-slate-50/50 rounded-b-2xl">
-                        <span>Showing {filtered.length} of {vendors.length} vendors</span>
+                        <span>Showing {filtered.length} of {customers.length} customers</span>
                     </div>
                 )}
             </div>

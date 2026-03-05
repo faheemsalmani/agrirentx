@@ -188,11 +188,39 @@ export async function getAllVendors() {
     const supabase = getSupabaseAdmin();
     const { data, error } = await supabase
         .from('vendors')
-        .select('vendor_id, shop_name, owner_name, email, mobile_number, city, status, created_at')
+        .select('*')
         .order('created_at', { ascending: false });
 
     if (error) {
         console.error('Error fetching all vendors:', error);
+        return [];
+    }
+    return data;
+}
+
+export async function getAllCustomers() {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+        .from('customers')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error fetching all customers:', error);
+        return [];
+    }
+    return data;
+}
+
+export async function getAllEquipments() {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+        .from('equipments')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error fetching all equipments:', error);
         return [];
     }
     return data;

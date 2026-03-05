@@ -8,11 +8,6 @@ export default function HeroSection() {
         <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
-                <img
-                    src="https://images.unsplash.com/photo-1625246333195-bfk763f0d2c2?q=80&w=2940&auto=format&fit=crop"
-                    alt="Agriculture Field"
-                    className="w-full h-full object-cover object-center"
-                />
                 <div className="absolute inset-0 bg-gradient-to-r from-brand-950/90 via-brand-900/40 to-transparent"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-transparent to-transparent"></div>
             </div>
@@ -49,8 +44,8 @@ export default function HeroSection() {
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
 
-                            <button className="px-8 py-4 glass hover:bg-white/10 text-white border border-white/20 rounded-xl font-bold backdrop-blur-md transition-all flex items-center justify-center space-x-3 group">
-                                <div className="w-8 h-8 rounded-full bg-white text-brand-900 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <button className="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold shadow-2xl hover:shadow-brand-500/50 transition-all flex items-center justify-center space-x-3 group">
+                                <div className="w-8 h-8 rounded-full bg-white text-brand-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                                     <Play className="w-4 h-4 fill-current ml-0.5" />
                                 </div>
                                 <span>Watch How It Works</span>
@@ -120,7 +115,7 @@ export default function HeroSection() {
                                         <p className="text-gray-400">Hourly Rate</p>
                                         <p className="text-xl font-bold text-yellow-400">₹499</p>
                                     </div>
-                                    <button className="px-4 py-2 bg-white text-brand-900 rounded-lg text-sm font-bold shadow hover:bg-gray-100 transition-colors">
+                                    <button className="px-4 py-2 bg-brand-600 text-white rounded-lg text-sm font-bold shadow border border-brand-500 hover:bg-brand-500 transition-colors">
                                         Reserve Now
                                     </button>
                                 </div>

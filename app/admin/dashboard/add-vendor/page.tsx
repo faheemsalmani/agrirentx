@@ -31,6 +31,7 @@ export default function AddVendor() {
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
     async function clientAction(formData: FormData) {
+        // We will now pass id_proof file to server payload.
         const result = await addVendor(formData);
         if (result.success) {
             setToast({ message: 'Vendor added successfully!', type: 'success' });

@@ -9,7 +9,7 @@ import Toast from '@/app/components/Toast';
 function SubmitButton() {
     const { pending } = useFormStatus();
     return (
-        <button type="submit" disabled={pending} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-lg hover:shadow-blue-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center space-x-2 text-sm disabled:opacity-70 disabled:cursor-not-allowed">
+        <button type="submit" disabled={pending} className="bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-lg hover:shadow-brand-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center space-x-2 text-sm disabled:opacity-70 disabled:cursor-not-allowed">
             {pending ? (
                 <>
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -30,6 +30,7 @@ export default function AddCustomer() {
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
     async function clientAction(formData: FormData) {
+        // We will now pass id_proof file to server payload.
         const result = await addCustomer(formData);
         if (result.success) {
             setToast({ message: 'Customer added successfully!', type: 'success' });
@@ -61,7 +62,7 @@ export default function AddCustomer() {
                             <div className="grid md:grid-cols-2 gap-3">
                                 <div className="md:col-span-2">
                                     <label className="block text-[10px] font-semibold text-gray-700 mb-1">Full Name</label>
-                                    <input name="name" type="text" className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <input name="name" type="text" className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                 </div>
                             </div>
                         </div>
@@ -73,15 +74,15 @@ export default function AddCustomer() {
                             <div className="grid md:grid-cols-2 gap-3">
                                 <div>
                                     <label className="block text-[10px] font-semibold text-gray-700 mb-1">Email</label>
-                                    <input name="email" type="email" className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <input name="email" type="email" className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-gray-700 mb-1">Mobile</label>
-                                    <input name="mobile_number" type="tel" maxLength={10} className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <input name="mobile_number" type="tel" maxLength={10} className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-gray-700 mb-1">Password</label>
-                                    <input name="password" type="password" className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <input name="password" type="password" className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                 </div>
                             </div>
                         </div>
@@ -93,15 +94,15 @@ export default function AddCustomer() {
                             <div className="grid md:grid-cols-2 gap-3">
                                 <div className="md:col-span-2">
                                     <label className="block text-[10px] font-semibold text-gray-700 mb-1">Address</label>
-                                    <textarea name="address" rows={2} className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none resize-none" required></textarea>
+                                    <textarea name="address" rows={2} className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none resize-none" required></textarea>
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-gray-700 mb-1">City</label>
-                                    <input name="city" type="text" className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                    <input name="city" type="text" className="w-full px-2.5 py-1.5 bg-gray-50 border border-gray-200 rounded-md text-sm focus:ring-1 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-gray-700 mb-1">ID Proof (Optional)</label>
-                                    <input name="id_proof" type="file" className="block w-full text-[10px] text-gray-500 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all" required />
+                                    <input name="id_proof" type="file" className="block w-full text-[10px] text-gray-500 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 transition-all" required />
                                 </div>
                             </div>
                         </div>
