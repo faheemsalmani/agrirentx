@@ -33,7 +33,7 @@ export default function AdminLayout({
                     } lg:relative lg:translate-x-0 flex flex-col shadow-2xl`}
             >
                 <div className="bg-slate-950 p-6 flex items-center justify-between">
-                    <Link href="/" className="flex items-center space-x-2 group">
+                    <Link href="/admin/dashboard" className="flex items-center space-x-2 group">
                         <div className="bg-brand-500 p-1.5 rounded-lg group-hover:bg-brand-400 transition-colors">
                             <Tractor className="h-6 w-6 text-slate-900" />
                         </div>
@@ -72,10 +72,10 @@ export default function AdminLayout({
                 </nav>
 
                 <div className="p-4 border-t border-slate-800">
-                    <Link href="/" className="flex items-center px-4 py-3 text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-xl transition-all group">
+                    <button type="button" onClick={() => { localStorage.clear(); window.location.href = '/'; }} className="w-full flex flex-row items-center px-4 py-3 text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-xl transition-all group">
                         <LogOut size={20} className="mr-3 text-slate-500 group-hover:text-red-400 transition-colors" />
                         Logout
-                    </Link>
+                    </button>
                 </div>
             </aside>
 

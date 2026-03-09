@@ -34,7 +34,7 @@ export default function VendorLayout({
                     } lg:relative lg:translate-x-0 flex flex-col shadow-2xl`}
             >
                 <div className="bg-brand-900 p-6 flex items-center justify-between">
-                    <Link href="/" className="flex items-center space-x-2 group">
+                    <Link href="/vendor/dashboard" className="flex items-center space-x-2 group">
                         <div className="bg-white/10 p-1.5 rounded-lg group-hover:bg-white/20 transition-colors">
                             <Store className="h-6 w-6 text-brand-400" />
                         </div>
@@ -73,10 +73,10 @@ export default function VendorLayout({
                 </nav>
 
                 <div className="p-4 border-t border-brand-900">
-                    <Link href="/" className="flex items-center px-4 py-3 text-sm font-medium text-brand-200 hover:text-red-300 hover:bg-brand-900/50 rounded-xl transition-all group">
+                    <button type="button" onClick={() => { localStorage.clear(); window.location.href = '/'; }} className="w-full flex flex-row items-center px-4 py-3 text-sm font-medium text-brand-200 hover:text-red-300 hover:bg-brand-900/50 rounded-xl transition-all group">
                         <LogOut size={20} className="mr-3 text-brand-400 group-hover:text-red-400 transition-colors" />
                         Logout
-                    </Link>
+                    </button>
                 </div>
             </aside>
 

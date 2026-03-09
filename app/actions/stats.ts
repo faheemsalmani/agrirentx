@@ -4,6 +4,10 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 
 export async function getAdminStats() {
     const supabase = getSupabaseAdmin();
+    // Auto update past active to pending
+    const today = new Date().toISOString().split('T')[0];
+    await supabase.from('bookings').update({ status: 'Pending' }).eq('status', 'Active').lt('end_date', today);
+
 
     try {
         const [
@@ -70,6 +74,9 @@ export async function getVendorStats(vendorId: number) {
 
 export async function getCustomerStats(customerId: number) {
     const supabase = getSupabaseAdmin();
+    const today = new Date().toISOString().split('T')[0];
+    await supabase.from('bookings').update({ status: 'Pending' }).eq('status', 'Active').lt('end_date', today);
+
 
     try {
         const [
@@ -103,6 +110,9 @@ export async function getCustomerStats(customerId: number) {
 
 export async function getRecentBookings(limit = 5, customerId?: number) {
     const supabase = getSupabaseAdmin();
+    const today = new Date().toISOString().split('T')[0];
+    await supabase.from('bookings').update({ status: 'Pending' }).eq('status', 'Active').lt('end_date', today);
+
 
     let query = supabase
         .from('bookings')
