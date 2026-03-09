@@ -29,7 +29,10 @@ export async function registerVendor(formData: FormData) {
 
     if (error) {
         console.error('Vendor registration error:', error.message);
-        return { success: false, message: error.message };
+        if (error.code === '23505' || error.message.includes('vendors_email_key')) {
+            return { success: false, message: 'An account with this email address already exists. Please login instead.' };
+        }
+        return { success: false, message: 'Failed to register. Please try again later.' };
     }
 
     return { success: true, message: 'Registration successful!' };

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Calendar, CheckCircle2, Clock, XCircle, Search } from 'lucide-react';
 import { getRecentBookings } from '@/app/actions/stats';
+import { submitEquipment } from '@/app/actions/booking';
 
 // Since I don't know if shadcn is installed, I'll build a custom Tab component to be safe and "minimal code"
 function CustomTabs({ tabs, activeTab, setActiveTab }: { tabs: string[], activeTab: string, setActiveTab: (t: string) => void }) {
@@ -39,6 +40,19 @@ export default function BookingsPage() {
         }
         fetchBookings();
     }, []);
+
+    async function handleReturnEquipment(bookingId: number, equipmentId: number) {
+        if (!confirm('Are you sure you want to return this equipment?')) return;
+        setLoading(true);
+        const res = await submitEquipment(bookingId, equipmentId);
+        if (res.success) {
+            const data = await getRecentBookings(20, 1);
+            setBookings(data);
+        } else {
+            alert(res.message);
+        }
+        setLoading(false);
+    }
 
     const filteredBookings = activeTab === 'All'
         ? bookings
@@ -90,8 +104,8 @@ export default function BookingsPage() {
                             </div>
                         </div>
 
-                        <div className="hidden md:block text-right">
-                            <span className={`px-3 py-1.5 rounded-full text-sm font-semibold inline-flex items-center gap-1.5 ${booking.status === 'Completed' ? 'bg-green-50 text-green-700' :
+                        <div className="hidden md:block text-right flex-col items-end flex gap-2">
+                            <span className={`px-3 py-1.5 rounded-full text-sm font-semibold inline-flex items-center gap-1.5 w-fit ${booking.status === 'Completed' ? 'bg-green-50 text-green-700' :
                                 booking.status === 'Pending' ? 'bg-amber-50 text-amber-700' :
                                     booking.status === 'Active' ? 'bg-blue-50 text-blue-700' :
                                         'bg-slate-50 text-slate-700'
@@ -100,6 +114,14 @@ export default function BookingsPage() {
                                 {booking.status === 'Pending' && <Clock size={14} />}
                                 {booking.status}
                             </span>
+                            {(booking.status === 'Active' || booking.status === 'Pending') && (
+                                <button
+                                    onClick={() => handleReturnEquipment(booking.booking_id, booking.equipment_id)}
+                                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors mt-2"
+                                >
+                                    Return Equipment
+                                </button>
+                            )}
                         </div>
                     </div>
                 )) : (

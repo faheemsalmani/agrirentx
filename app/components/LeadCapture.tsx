@@ -43,7 +43,7 @@ export default function LeadCapture() {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Email Us</p>
-                                    <p className="text-xl font-bold text-white">sales@agrirentx.com</p>
+                                    <p className="text-xl font-bold text-white">faheem@agrirentx.com</p>
                                 </div>
                             </div>
 

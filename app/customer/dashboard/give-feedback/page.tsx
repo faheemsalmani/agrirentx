@@ -1,25 +1,53 @@
 'use client';
 
 import { Star, Send, XCircle } from 'lucide-react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { getPendingFeedbackBookings, submitFeedback } from '@/app/actions/booking';
 
-export default function GiveFeedback() {
+function GiveFeedbackContent() {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [showSuccess, setShowSuccess] = useState(false);
+    const [bookingId, setBookingId] = useState<number | ''>('');
+    const [pendingBookings, setPendingBookings] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const searchParams = useSearchParams();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    useEffect(() => {
+        async function fetchOptions() {
+            setLoading(true);
+            const data = await getPendingFeedbackBookings(1); // Assuming customer_id 1
+            setPendingBookings(data);
+
+            const initialBookingId = searchParams.get('bookingId');
+            if (initialBookingId) {
+                setBookingId(Number(initialBookingId));
+            } else if (data.length > 0) {
+                setBookingId(data[0].booking_id);
+            }
+            setLoading(false);
+        }
+        fetchOptions();
+    }, [searchParams]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Simulate API call
-        setTimeout(() => {
+        if (!bookingId || rating === 0) return;
+        setLoading(true);
+        const res = await submitFeedback(Number(bookingId), rating, comment);
+
+        if (res.success) {
             setShowSuccess(true);
             setTimeout(() => {
                 setShowSuccess(false);
                 router.push('/customer/dashboard/pending-feedback');
             }, 2000);
-        }, 500);
+        } else {
+            alert(res.message);
+        }
+        setLoading(false);
     };
 
     return (
@@ -36,9 +64,21 @@ export default function GiveFeedback() {
             <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 relative overflow-hidden">
                 <div className="space-y-1">
                     <label className="text-sm font-semibold text-gray-700 block">Select Booking</label>
-                    <select className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-                        <option>Rotavator 6 Feet - Oct 20</option>
-                        <option>Harvester Combine - Oct 15</option>
+                    <select
+                        value={bookingId}
+                        onChange={(e) => setBookingId(Number(e.target.value))}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                        disabled={pendingBookings.length === 0}
+                    >
+                        {pendingBookings.length === 0 ? (
+                            <option value="">No pending feedback available</option>
+                        ) : (
+                            pendingBookings.map((b) => (
+                                <option key={b.booking_id} value={b.booking_id}>
+                                    {b.equipments?.equipment_name || 'Equipment'} - Returned on {new Date(b.end_date).toLocaleDateString()}
+                                </option>
+                            ))
+                        )}
                     </select>
                 </div>
 
@@ -76,14 +116,22 @@ export default function GiveFeedback() {
                     </button>
                     <button
                         type="submit"
-                        disabled={rating === 0}
+                        disabled={rating === 0 || !bookingId || loading}
                         className="px-6 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium shadow-md shadow-emerald-500/20 hover:bg-emerald-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center"
                     >
                         <Send size={16} className="mr-2" />
-                        Submit Review
+                        {loading ? 'Submitting...' : 'Submit Review'}
                     </button>
                 </div>
             </form>
         </div>
+    );
+}
+
+export default function GiveFeedback() {
+    return (
+        <Suspense fallback={<div className="text-center py-12 text-slate-500">Loading feedback form...</div>}>
+            <GiveFeedbackContent />
+        </Suspense>
     );
 }
