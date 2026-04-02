@@ -19,6 +19,9 @@ export default function VendorLogin() {
         setLoading(false);
 
         if (result.success) {
+            if (result.vendor) {
+                localStorage.setItem('vendor', JSON.stringify(result.vendor));
+            }
             setToast({ message: 'Login Successful! Welcome Vendor.', type: 'success' });
             setTimeout(() => {
                 router.push('/vendor/dashboard');

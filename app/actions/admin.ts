@@ -171,7 +171,7 @@ export async function loginAdmin(formData: FormData) {
         return { success: false, message: 'Admin record not found.' };
     }
 
-    return { success: true, message: 'Login successful!' };
+    return { success: true, message: 'Login successful!', admin: data };
 }
 export async function updateVendorStatus(vendorId: number, status: 'Approved' | 'Rejected') {
     const adminClient = getSupabaseAdmin();

@@ -34,13 +34,13 @@ export default function Footer() {
                     <div>
                         <h4 className="font-bold mb-4 text-gray-200">Contact Us</h4>
                         <p className="text-sm text-gray-400 mb-2">1800-AGRI-RENT</p>
-                        <p className="text-sm text-gray-400 mb-2">support@agrirentx.com</p>
+                        <p className="text-sm text-gray-400 mb-2">faheembug237@gmail.com</p>
                         <p className="text-sm text-gray-400">New Delhi, India</p>
                     </div>
                 </div>
 
                 <div className="border-t border-brand-900 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-                    <p>© 2024 AgriRentX Private Limited. All rights reserved.</p>
+                    <p>© 2026 AgriRentX Private Limited. All rights reserved.</p>
                     <p className="mt-2 md:mt-0 font-medium"></p>
                 </div>
             </div>

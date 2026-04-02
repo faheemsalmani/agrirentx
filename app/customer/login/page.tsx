@@ -19,6 +19,9 @@ export default function CustomerLogin() {
         setLoading(false);
 
         if (result.success) {
+            if (result.customer) {
+                localStorage.setItem('customer', JSON.stringify(result.customer));
+            }
             setToast({ message: 'Login Successful! Welcome to AgriRentX.', type: 'success' });
             setTimeout(() => {
                 router.push('/customer/dashboard');

@@ -235,3 +235,24 @@ export async function getAllEquipments() {
     }
     return data;
 }
+
+export async function getAllBookings() {
+    const supabase = getSupabaseAdmin();
+    const today = new Date().toISOString().split('T')[0];
+    await supabase.from('bookings').update({ status: 'Pending' }).eq('status', 'Active').lt('end_date', today);
+
+    const { data, error } = await supabase
+        .from('bookings')
+        .select(`
+            *,
+            equipments (equipment_name),
+            customers (name)
+        `)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error fetching all bookings:', error);
+        return [];
+    }
+    return data;
+}

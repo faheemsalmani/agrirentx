@@ -19,6 +19,9 @@ export default function AdminLogin() {
         setLoading(false);
 
         if (result.success) {
+            if (result.admin) {
+                localStorage.setItem('admin', JSON.stringify(result.admin));
+            }
             setToast({ message: 'Login Successful! Welcome Admin.', type: 'success' });
             setTimeout(() => {
                 router.push('/admin/dashboard');

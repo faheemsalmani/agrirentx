@@ -40,16 +40,13 @@ export default function CustomerRegister() {
                 <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-200/20 rounded-full blur-[100px]" />
             </div>
 
-            <div className="w-full max-w-2xl bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-8 sm:p-12 relative z-10 transition-all hover:shadow-blue-500/10">
-                <div className="mb-10 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-6 shadow-sm ring-4 ring-blue-50">
-                        <User size={32} />
-                    </div>
+            <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto custom-scrollbar bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-6 sm:p-8 relative z-10 transition-all hover:shadow-blue-500/10">
+                <div className="mb-6 text-center">
                     <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2">Customer Registration</h1>
                     <p className="text-gray-500 max-w-md mx-auto italic">Join the AgriRentX community today!</p>
                 </div>
 
-                <form ref={formRef} action={handleSubmit} className="space-y-8">
+                <form ref={formRef} action={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Personal Details */}
                         <div className="space-y-4 md:col-span-2">
@@ -169,7 +166,7 @@ export default function CustomerRegister() {
                     </p>
                 </div>
 
-                <div className="mt-8 text-center">
+                <div className="mt-6 text-center pb-2">
                     <Link href="/" className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-gray-600 transition-colors group">
                         <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
                         <span>Back to Home</span>

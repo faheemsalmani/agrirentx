@@ -40,16 +40,13 @@ export default function VendorRegister() {
                 <div className="absolute bottom-10 right-10 w-96 h-96 bg-yellow-200/10 rounded-full blur-[100px]" />
             </div>
 
-            <div className="w-full max-w-2xl bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-8 sm:p-12 relative z-10 transition-all hover:shadow-brand-500/10">
-                <div className="mb-10 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-100 text-brand-600 mb-6 shadow-sm ring-4 ring-brand-50">
-                        <Store size={32} />
-                    </div>
+            <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto custom-scrollbar bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-6 sm:p-8 relative z-10 transition-all hover:shadow-brand-500/10">
+                <div className="mb-6 text-center">
                     <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 lowercase"><span className="uppercase">V</span>endor <span className="uppercase text-brand-600">P</span>artner <span className="uppercase">R</span>egistration</h1>
-                    <p className="text-gray-500 max-w-md mx-auto italic">Grow your business with India's largest agriculture rental platform.</p>
+                    <p className="text-gray-500 max-w-md mx-auto italic">Grow your business with India&apos;s largest agriculture rental platform.</p>
                 </div>
 
-                <form ref={formRef} action={handleSubmit} className="space-y-8">
+                <form ref={formRef} action={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Shop Information */}
                         <div className="space-y-4 md:col-span-2">
@@ -91,7 +88,7 @@ export default function VendorRegister() {
                                     <label className="block text-xs font-bold text-gray-700 mb-1.5 ml-1 uppercase">Mobile Number</label>
                                     <div className="relative">
                                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-brand-600 transition-colors" />
-                                        <input name="mobile_number" type="tel" maxLength={10} placeholder="9876543210" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
+                                        <input name="mobile_number" type="tel" maxLength={10} placeholder="9026684407" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                                 <div className="group md:col-span-2">
@@ -176,7 +173,7 @@ export default function VendorRegister() {
                     </p>
                 </div>
 
-                <div className="mt-8 text-center">
+                <div className="mt-6 text-center pb-2">
                     <Link href="/" className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-all group">
                         <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
                         <span>Back to Home</span>

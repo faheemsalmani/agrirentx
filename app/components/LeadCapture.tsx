@@ -33,7 +33,7 @@ export default function LeadCapture() {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Call Us 24/7</p>
-                                    <p className="text-xl font-bold text-white">+91 98765 43210</p>
+                                    <p className="text-xl font-bold text-white">+91 9026684407</p>
                                 </div>
                             </div>
 
@@ -43,7 +43,7 @@ export default function LeadCapture() {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Email Us</p>
-                                    <p className="text-xl font-bold text-white">faheem@agrirentx.com</p>
+                                    <p className="text-xl font-bold text-white">faheembug237@gmail.com</p>
                                 </div>
                             </div>
 
@@ -53,7 +53,7 @@ export default function LeadCapture() {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Headquarters</p>
-                                    <p className="text-lg font-bold text-white">Sector 62, Noida, Uttar Pradesh</p>
+                                    <p className="text-lg font-bold text-white">Lucknow ,Uttar Pradesh</p>
                                 </div>
                             </div>
                         </div>

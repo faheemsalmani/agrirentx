@@ -1,13 +1,48 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 const stats = [
-    { id: 1, name: 'Farming Equipment', value: '5,000+' },
-    { id: 2, name: 'Happy Farmers', value: '10,000+' },
-    { id: 3, name: 'Acres Harvested', value: '1M+' },
-    { id: 4, name: 'Cities Covered', value: '50+' },
+    { id: 1, name: 'Farming Equipment', value: 5000, suffix: '+' },
+    { id: 2, name: 'Happy Farmers', value: 10000, suffix: '+' },
+    { id: 3, name: 'Acres Harvested', value: 1000000, suffix: '+' },
+    { id: 4, name: 'Cities Covered', value: 50, suffix: '+' },
 ];
+
+function AnimatedCounter({ end, duration = 2, suffix = '' }: { end: number, duration?: number, suffix?: string }) {
+    const [count, setCount] = useState(0);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+
+    useEffect(() => {
+        if (isInView) {
+            let start = 0;
+            const steps = duration * 60;
+            const increment = end / steps;
+            
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= end) {
+                    setCount(end);
+                    clearInterval(timer);
+                } else {
+                    setCount(Math.ceil(start));
+                }
+            }, 1000 / 60);
+            return () => clearInterval(timer);
+        }
+    }, [end, duration, isInView]);
+
+    const formatNumber = (num: number) => {
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(0) + 'M';
+        }
+        return num.toLocaleString();
+    };
+
+    return <span ref={ref}>{formatNumber(count)}{suffix}</span>;
+}
 
 export default function Stats() {
     return (
@@ -40,7 +75,9 @@ export default function Stats() {
                                 className="flex flex-col bg-white/5 p-8"
                             >
                                 <dt className="text-sm font-semibold leading-6 text-gray-300 uppercase tracking-wider">{stat.name}</dt>
-                                <dd className="order-first text-4xl font-bold tracking-tight text-white mb-2">{stat.value}</dd>
+                                <dd className="order-first text-4xl font-bold tracking-tight text-white mb-2">
+                                    <AnimatedCounter end={stat.value} suffix={stat.suffix} />
+                                </dd>
                             </motion.div>
                         ))}
                     </dl>
