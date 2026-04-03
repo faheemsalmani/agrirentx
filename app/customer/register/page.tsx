@@ -58,7 +58,7 @@ export default function CustomerRegister() {
                                     <label className="block text-xs font-bold text-gray-700 mb-1.5 ml-1 uppercase">Full Name</label>
                                     <div className="relative">
                                         <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-blue-600 transition-colors" />
-                                        <input name="name" type="text" placeholder="John Doe" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                        <input name="name" type="text" placeholder="John Doe" pattern="[A-Za-z.\s]+" title="Only Alphabets and dot (.) are allowed" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,8 @@ export default function CustomerRegister() {
                                     <label className="block text-xs font-bold text-gray-700 mb-1.5 ml-1 uppercase">Mobile Number</label>
                                     <div className="relative">
                                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-blue-600 transition-colors" />
-                                        <input name="mobile_number" type="tel" maxLength={10} placeholder="9876543210" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
+                                        <div className="absolute left-9 top-1/2 -translate-y-1/2 text-gray-500 font-medium text-sm">+91</div>
+                                        <input name="mobile_number" type="tel" maxLength={10} pattern="[0-9]{10}" title="Must be exactly 10 digits" placeholder="9876543210" className="w-full pl-16 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" required />
                                     </div>
                                 </div>
                                 <div className="group md:col-span-2">

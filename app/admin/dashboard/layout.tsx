@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { LayoutDashboard, Users, Store, Tractor, LogOut, Menu, X, ChevronDown, UserCircle } from 'lucide-react';
+import { LayoutDashboard, Users, Store, Tractor, LogOut, Menu, X, ChevronDown, UserCircle, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -29,6 +29,7 @@ export default function AdminLayout({
 
     const sidebarLinks = [
         { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+        { name: 'Recent Query', href: '/admin/dashboard/recent-query', icon: MessageSquare },
         { name: 'Vendors', href: '/admin/dashboard/vendors', icon: Store },
         { name: 'Customers', href: '/admin/dashboard/customers', icon: Users },
         { name: 'Equipment', href: '/admin/dashboard/equipment', icon: Tractor },

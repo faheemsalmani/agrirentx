@@ -15,7 +15,7 @@ export default function VendorLayout({
     const [mounted, setMounted] = useState(false);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-    const [user, setUser] = useState<{owner_name?: string, email?: string} | null>(null);
+    const [user, setUser] = useState<{ owner_name?: string, email?: string } | null>(null);
 
     useEffect(() => {
         setMounted(true);
@@ -23,16 +23,14 @@ export default function VendorLayout({
         if (stored) {
             try {
                 setUser(JSON.parse(stored));
-            } catch (e) {}
+            } catch (e) { }
         }
     }, []);
 
     const sidebarLinks = [
         { name: 'Dashboard', href: '/vendor/dashboard', icon: LayoutDashboard },
         { name: 'Add Equipment', href: '/vendor/dashboard/add-equipment', icon: Plus },
-        { name: 'Update Equipment', href: '/vendor/dashboard/manage-equipment', icon: Edit },
-        { name: 'Delete Equipment', href: '/vendor/dashboard/manage-equipment', icon: Trash2 },
-        { name: 'My Customers', href: '/vendor/dashboard/my-customers', icon: Users },
+        { name: 'Manage Equipment', href: '/vendor/dashboard/manage-equipment', icon: Settings },
     ];
 
     return (
@@ -62,8 +60,7 @@ export default function VendorLayout({
                         const Icon = link.icon;
                         const isActive = mounted && (
                             pathname === link.href ||
-                            (link.name === 'Update Equipment' && pathname?.includes('update')) ||
-                            (link.name === 'Delete Equipment' && pathname?.includes('delete'))
+                            (link.name === 'Manage Equipment' && pathname?.includes('manage'))
                         );
                         return (
                             <Link
@@ -96,7 +93,7 @@ export default function VendorLayout({
 
                     {/* Top Right Profile Dropdown */}
                     <div className="relative">
-                        <button 
+                        <button
                             onClick={() => setShowProfileDropdown(!showProfileDropdown)}
                             className="flex items-center gap-2 hover:bg-slate-50 p-2 rounded-lg transition-colors border border-transparent hover:border-slate-100"
                         >
@@ -118,12 +115,14 @@ export default function VendorLayout({
                                     <button className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors flex items-center gap-2">
                                         <UserCircle size={16} /> My Profile
                                     </button>
-                                    <button 
-                                        onClick={() => {
-                                            setShowProfileDropdown(false);
-                                            setShowLogoutModal(true);
+                                    <button
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            localStorage.clear();
+                                            window.location.href = '/';
                                         }}
-                                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2"
+                                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2 relative z-50 cursor-pointer"
                                     >
                                         <LogOut size={16} /> Logout
                                     </button>
@@ -145,13 +144,13 @@ export default function VendorLayout({
                         <h3 className="text-xl font-bold text-slate-900 mb-2">Are you sure?</h3>
                         <p className="text-slate-500 mb-6">Do you really want to logout from your account?</p>
                         <div className="flex justify-end space-x-3">
-                            <button 
+                            <button
                                 onClick={() => setShowLogoutModal(false)}
                                 className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors font-medium"
                             >
                                 Cancel
                             </button>
-                            <button 
+                            <button
                                 onClick={() => { localStorage.clear(); window.location.href = '/'; }}
                                 className="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded-lg transition-colors font-medium shadow-sm"
                             >
