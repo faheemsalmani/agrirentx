@@ -10,8 +10,9 @@ import EquipmentSection from './components/EquipmentSection';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-brand-950">
       <NavBar />
+      <img src="/agribg.png" alt="AgriRentX Background" className="w-full h-auto block" />
       <Hero />
       <Stats />
       <About />

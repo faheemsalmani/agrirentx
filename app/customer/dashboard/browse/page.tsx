@@ -87,8 +87,15 @@ export default function BrowseEquipment() {
         setBookingLoading(true);
 
         const formData = new FormData();
-        // Assume customer_id 1
-        formData.append('customer_id', '1');
+        const stored = localStorage.getItem('customer');
+        let custId = '1';
+        if (stored) {
+            try {
+                const c = JSON.parse(stored);
+                if (c && c.customer_id) custId = String(c.customer_id);
+            } catch(e) {}
+        }
+        formData.append('customer_id', custId);
         formData.append('equipment_id', String(billDetails.equipment.equipment_id));
         formData.append('start_date', startDate);
         formData.append('end_date', endDate);

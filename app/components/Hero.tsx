@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, Star, ShieldCheck, Users, Tractor } from 'lucide-react';
+import { ArrowRight, Play, Star, ShieldCheck, Users, X, Tractor } from 'lucide-react';
 
 export default function HeroSection() {
+    const [showVideoModal, setShowVideoModal] = useState(false);
+
     return (
         <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Background Image with Overlay */}
@@ -24,27 +27,18 @@ export default function HeroSection() {
                     >
                         <div className="inline-flex items-center space-x-2 bg-brand-500/20 backdrop-blur-md border border-brand-400/30 rounded-full px-4 py-1.5 text-brand-100 text-sm font-semibold tracking-wide uppercase shadow-glow">
                             <span className="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
-                            <span>India's #1 Agri-Rental Network</span>
+                            <span>India&apos;s #1 Agri-Rental Network</span>
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl font-bold font-heading text-white leading-tight drop-shadow-xl">
-                            Empowering Every <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-yellow-400">
-                                Harvest Season
-                            </span>
-                        </h1>
 
-                        <p className="text-lg md:text-xl text-gray-200 max-w-xl font-light leading-relaxed">
-                            Access premium, heavy-duty agriculture machinery instantly. From tractors to harvesters, we provide the tools to cultivate your success at minimal rental costs.
-                        </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                            <button className="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold shadow-2xl hover:shadow-brand-500/50 transition-all transform hover:-translate-y-1 flex items-center justify-center space-x-2 group">
+                            <a href="#equipment" className="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold shadow-2xl hover:shadow-brand-500/50 transition-all transform hover:-translate-y-1 flex items-center justify-center space-x-2 group">
                                 <span>Browse Equipment</span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </button>
+                            </a>
 
-                            <button className="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold shadow-2xl hover:shadow-brand-500/50 transition-all flex items-center justify-center space-x-3 group">
+                            <button onClick={() => setShowVideoModal(true)} className="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold shadow-2xl hover:shadow-brand-500/50 transition-all flex items-center justify-center space-x-3 group">
                                 <div className="w-8 h-8 rounded-full bg-white text-brand-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                                     <Play className="w-4 h-4 fill-current ml-0.5" />
                                 </div>
@@ -136,6 +130,38 @@ export default function HeroSection() {
                     <div className="w-1 h-3 bg-white/80 rounded-full"></div>
                 </div>
             </motion.div>
+
+            {/* Video Modal */}
+            {showVideoModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+                    <div className="relative w-full max-w-4xl bg-black rounded-2xl shadow-2xl overflow-hidden aspect-video border border-white/10">
+                        <button
+                            onClick={() => setShowVideoModal(false)}
+                            className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-brand-600 rounded-full flex items-center justify-center text-white transition-colors"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                        <video
+                            src="/vdo1.mp4"
+                            controls
+                            autoPlay
+                            className="w-full h-full object-contain"
+                        />
+                    </div>
+                </div>
+            )}
+            {/* WhatsApp Floating Button */}
+            <a
+                href="https://wa.me/919026684407"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#128C7E] transition-all transform hover:scale-110 flex items-center justify-center group"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" />
+                    <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" />
+                </svg>
+            </a>
         </section>
     );
 }

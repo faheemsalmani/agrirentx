@@ -11,16 +11,21 @@ export default function VendorDashboard() {
         availableEquipments: 0,
         bookedEquipments: 0
     });
-    const [loading, setLoading] = useState(true);
+    const [shopName, setShopName] = useState('AgriEquip Traders');
 
     useEffect(() => {
         async function fetchStats() {
-            setLoading(true);
-            // Assuming vendor_id 1 for now, or fetch all if not logged in
-            // In a real app, this would come from the session
-            const data = await getVendorStats(1);
+            let vId = 1;
+            const stored = localStorage.getItem('vendor');
+            if (stored) {
+                try {
+                    const v = JSON.parse(stored);
+                    if (v && v.vendor_id) vId = v.vendor_id;
+                    if (v && v.shop_name) setShopName(v.shop_name);
+                } catch(e) {}
+            }
+            const data = await getVendorStats(vId);
             setStatsData(data);
-            setLoading(false);
         }
         fetchStats();
     }, []);
@@ -35,7 +40,7 @@ export default function VendorDashboard() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-gray-900 font-heading">My Shop Overview</h1>
-                <div className="text-sm text-gray-500">Shop: AgriEquip Traders</div>
+                <div className="text-sm text-gray-500">Shop: {shopName}</div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

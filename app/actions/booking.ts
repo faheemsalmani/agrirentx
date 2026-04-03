@@ -40,6 +40,8 @@ export async function bookEquipment(formData: FormData) {
 
     revalidatePath('/customer/dashboard/browse');
     revalidatePath('/customer/dashboard/bookings');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/admin/dashboard/bookings');
 
     return { success: true, message: 'Equipment booked successfully!' };
 }
@@ -72,6 +74,8 @@ export async function submitEquipment(booking_id: number, equipment_id: number) 
     revalidatePath('/customer/dashboard/bookings');
     revalidatePath('/customer/dashboard/browse');
     revalidatePath('/customer/dashboard');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/admin/dashboard/bookings');
 
     return { success: true, message: 'Equipment submitted successfully!' };
 }

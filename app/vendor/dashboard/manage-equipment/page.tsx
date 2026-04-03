@@ -1,15 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Tractor, Edit, Trash2, MoreHorizontal, Image as ImageIcon } from 'lucide-react';
+import { Tractor, Edit, Trash2, MoreHorizontal, Image as ImageIcon, X, Upload } from 'lucide-react';
 import Link from 'next/link';
 import { getVendorEquipments } from '@/app/actions/stats';
-import { deleteEquipment } from '@/app/actions/equipment';
+import { deleteEquipment, submitEquipment } from '@/app/actions/equipment';
 
 export default function ManageEquipment() {
     const [equipments, setEquipments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [deletingId, setDeletingId] = useState<number | null>(null);
+    const [editingEquipment, setEditingEquipment] = useState<any | null>(null);
+    const [isUpdating, setIsUpdating] = useState(false);
 
     useEffect(() => {
         fetchEquipments();
@@ -35,6 +37,25 @@ export default function ManageEquipment() {
             setDeletingId(null);
         }
     }
+
+    const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsUpdating(true);
+        const formData = new FormData(e.currentTarget);
+        formData.append('is_update', 'true');
+        formData.append('equipment_id', editingEquipment.equipment_id.toString());
+        formData.append('vendor_id', editingEquipment.vendor_id?.toString() || '1');
+        formData.append('existing_image_url', editingEquipment.image_url || '');
+
+        const res = await submitEquipment(formData);
+        if (res.success) {
+            setEditingEquipment(null);
+            fetchEquipments();
+        } else {
+            alert('Failed to update equipment: ' + res.message);
+        }
+        setIsUpdating(false);
+    };
 
     return (
         <div className="space-y-6">
@@ -90,7 +111,7 @@ export default function ManageEquipment() {
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end space-x-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                                             <button className="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors" title="Update"
-                                                onClick={() => alert('Update flow to be implemented based on UI design')}>
+                                                onClick={() => setEditingEquipment(item)}>
                                                 <Edit size={16} />
                                             </button>
                                             <button
@@ -116,6 +137,66 @@ export default function ManageEquipment() {
                     </table>
                 </div>
             </div>
+
+            {editingEquipment && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+                        <div className="flex justify-between items-center p-6 border-b border-gray-100">
+                            <h2 className="text-xl font-bold text-gray-900 font-heading">Update Equipment</h2>
+                            <button onClick={() => setEditingEquipment(null)} className="text-gray-400 hover:text-gray-600 transition-colors">
+                                <X size={24} />
+                            </button>
+                        </div>
+                        <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
+                            <form onSubmit={handleUpdate} className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2 col-span-1 md:col-span-2">
+                                        <label className="text-sm font-semibold text-gray-700">Equipment Name*</label>
+                                        <input required type="text" name="equipment_name" defaultValue={editingEquipment.equipment_name} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500 bg-gray-50 outline-none transition-all" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-semibold text-gray-700">Type*</label>
+                                        <input required type="text" name="type" defaultValue={editingEquipment.type} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500 bg-gray-50 outline-none transition-all" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-semibold text-gray-700">Price Per Day (₹)*</label>
+                                        <input required type="number" name="price_per_day" defaultValue={editingEquipment.price_per_day} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500 bg-gray-50 outline-none transition-all" min="0" />
+                                    </div>
+                                    <div className="space-y-2 col-span-1 md:col-span-2">
+                                        <label className="text-sm font-semibold text-gray-700">Description</label>
+                                        <textarea required name="description" defaultValue={editingEquipment.description} rows={3} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500 bg-gray-50 outline-none transition-all"></textarea>
+                                    </div>
+                                    <div className="space-y-2 col-span-1 md:col-span-2">
+                                        <label className="text-sm font-semibold text-gray-700">Equipment Image (Optional)</label>
+                                        <div className="flex items-center space-x-4">
+                                            <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
+                                                {editingEquipment.image_url && !editingEquipment.image_url.startsWith('placeholder') ? (
+                                                    <img src={editingEquipment.image_url} alt="Current" className="w-full h-full object-cover" />
+                                                ) : <ImageIcon size={24} className="text-gray-400" />}
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="relative border-2 border-dashed border-gray-300 rounded-xl px-4 py-4 hover:border-brand-500 transition-colors bg-gray-50/50 flex flex-col items-center justify-center cursor-pointer">
+                                                    <input type="file" name="image" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                                                    <Upload size={20} className="text-gray-400 mb-1" />
+                                                    <p className="text-sm text-gray-500 font-medium">Click or drag new image</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="pt-6 border-t border-gray-100 flex justify-end space-x-3">
+                                    <button type="button" onClick={() => setEditingEquipment(null)} className="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-700 font-semibold hover:bg-gray-50 transition-colors">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" disabled={isUpdating} className="px-6 py-2.5 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700 shadow-lg hover:shadow-brand-500/30 transition-all flex items-center space-x-2 disabled:opacity-70">
+                                        {isUpdating ? 'Updating...' : 'Update Equipment'}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

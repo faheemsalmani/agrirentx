@@ -33,8 +33,15 @@ export default function BookingsPage() {
     useEffect(() => {
         async function fetchBookings() {
             setLoading(true);
-            // Assuming customer_id 1
-            const data = await getRecentBookings(20, 1);
+            let custId = 1;
+            const stored = localStorage.getItem('customer');
+            if (stored) {
+                try {
+                    const c = JSON.parse(stored);
+                    if (c && c.customer_id) custId = c.customer_id;
+                } catch(e) {}
+            }
+            const data = await getRecentBookings(20, custId);
             setBookings(data);
             setLoading(false);
         }
@@ -46,7 +53,15 @@ export default function BookingsPage() {
         setLoading(true);
         const res = await submitEquipment(bookingId, equipmentId);
         if (res.success) {
-            const data = await getRecentBookings(20, 1);
+            let custId = 1;
+            const stored = localStorage.getItem('customer');
+            if (stored) {
+                try {
+                    const c = JSON.parse(stored);
+                    if (c && c.customer_id) custId = c.customer_id;
+                } catch(e) {}
+            }
+            const data = await getRecentBookings(20, custId);
             setBookings(data);
         } else {
             alert(res.message);

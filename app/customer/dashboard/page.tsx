@@ -18,10 +18,17 @@ export default function CustomerDashboard() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            // Assuming customer_id 1 for now
+            let custId = 1;
+            const stored = localStorage.getItem('customer');
+            if (stored) {
+                try {
+                    const c = JSON.parse(stored);
+                    if (c && c.customer_id) custId = c.customer_id;
+                } catch(e) {}
+            }
             const [stats, bookings] = await Promise.all([
-                getCustomerStats(1),
-                getRecentBookings(2, 1)
+                getCustomerStats(custId),
+                getRecentBookings(2, custId)
             ]);
             setStatsData(stats);
             setRecentBookings(bookings);

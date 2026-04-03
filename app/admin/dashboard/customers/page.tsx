@@ -148,7 +148,7 @@ export default function CustomersPage() {
                                         <td className="px-5 py-4 text-gray-600">{c.city}</td>
                                         <td className="px-5 py-4">
                                             {c.id_proof ? (
-                                                <a href={c.id_proof || '#'} target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs">
+                                                <a href={c.id_proof?.startsWith('http') ? c.id_proof : `/${c.id_proof}`} target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs">
                                                     View Doc
                                                 </a>
                                             ) : (

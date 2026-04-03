@@ -1,30 +1,12 @@
 'use client';
 
 import { Menu, X, Tractor, User, Store, ShieldCheck, LogIn, UserPlus, ChevronDown } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 export default function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const toggleDropdown = (name: string) => {
-        if (activeDropdown === name) {
-            setActiveDropdown(null);
-        } else {
-            setActiveDropdown(name);
-        }
-    };
 
     return (
         <>
@@ -38,21 +20,20 @@ export default function NavBar() {
                         Start Your Rental Journey Today - Only Premium Agriculture Equipment
                     </span>
                     <span className="mx-8 border-l border-brand-600 pl-8 opacity-90">
-                        Call Now: +91 98765 43210
+                        Call Now: +91 9026684407
                     </span>
                     <span className="mx-8 font-bold text-yellow-300 tracking-wider drop-shadow-sm">
 
                     </span>
                     <span className="mx-8 border-l border-brand-600 pl-8 opacity-90">
-                        Partner with India's Largest Rental Network
+                        Partner with India&apos;s Largest Rental Network
                     </span>
                 </div>
             </div>
 
             {/* Main Navbar */}
             <nav
-                className={`fixed w-full z-40 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-3' : 'bg-transparent py-5'
-                    }`}
+                className="sticky top-0 w-full z-40 bg-white py-3 shadow-lg transition-all duration-300"
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center">
@@ -61,7 +42,7 @@ export default function NavBar() {
                             <div className="bg-brand-600 p-2 rounded-xl group-hover:bg-brand-500 transition-colors shadow-lg ring-2 ring-brand-100/50">
                                 <Tractor className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
                             </div>
-                            <span className={`text-xl sm:text-2xl font-bold font-heading tracking-tight ${scrolled ? 'text-brand-900' : 'text-white drop-shadow-lg'}`}>
+                            <span className="text-xl sm:text-2xl font-bold font-heading tracking-tight text-brand-900">
                                 AgriRent<span className="text-brand-500">X</span>
                             </span>
                         </Link>
@@ -72,8 +53,7 @@ export default function NavBar() {
                                 <a
                                     key={item}
                                     href={`#${item.toLowerCase().replace(' ', '-')}`}
-                                    className={`text-sm font-medium transition-colors hover:text-brand-500 relative group ${scrolled ? 'text-gray-700' : 'text-white/90 hover:text-white drop-shadow-md'
-                                        }`}
+                                    className="text-sm font-medium transition-colors hover:text-brand-500 relative group text-gray-700"
                                 >
                                     {item}
                                     <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-brand-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
@@ -81,14 +61,14 @@ export default function NavBar() {
                             ))}
 
                             <div className="flex items-center space-x-3 ml-4">
-                                <Link href="/admin/login" className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${scrolled ? 'border-gray-200 text-gray-500 hover:border-brand-500 hover:text-brand-600' : 'border-white/20 text-white/70 hover:bg-white/10 hover:text-white'}`}>
+                                <Link href="/admin/login" className="text-xs font-semibold px-3 py-1.5 rounded-full border transition-all border-gray-200 text-gray-500 hover:border-brand-500 hover:text-brand-600">
                                     Admin
                                 </Link>
 
                                 {/* Vendor Dropdown */}
                                 <div className="relative group">
                                     <button
-                                        className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${scrolled ? 'text-brand-900 hover:bg-brand-50' : 'text-white hover:bg-white/10'}`}
+                                        className="flex items-center space-x-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all text-brand-900 hover:bg-brand-50"
                                     >
                                         <Store className="h-4 w-4" />
                                         <span>Vendor</span>
@@ -137,7 +117,7 @@ export default function NavBar() {
                         <div className="lg:hidden flex items-center gap-3">
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
-                                className={`p-2 rounded-lg transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/10'}`}
+                                className="p-2 rounded-lg transition-colors text-gray-700 hover:bg-gray-100"
                             >
                                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                             </button>

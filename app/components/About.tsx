@@ -61,12 +61,12 @@ export default function About() {
                     >
                         <div className="grid grid-cols-2 gap-4">
                             <img
-                                src="https://images.unsplash.com/photo-1595111952899-73fb7d9241b7?q=80&w=1000&auto=format&fit=crop"
+                                src="/farmer1.jpg"
                                 alt="Farmer in field"
                                 className="rounded-2xl shadow-xl w-full h-64 object-cover transform translate-y-8"
                             />
                             <img
-                                src="https://images.unsplash.com/photo-1527847335168-521dee13202b?q=80&w=1000&auto=format&fit=crop"
+                                src="/sonalika1.png"
                                 alt="High Tech Tractor"
                                 className="rounded-2xl shadow-xl w-full h-64 object-cover transform -translate-y-8"
                             />

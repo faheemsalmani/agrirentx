@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { LayoutDashboard, Users, Store, Tractor, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Users, Store, Tractor, LogOut, Menu, X, ChevronDown, UserCircle, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -13,13 +13,23 @@ export default function AdminLayout({
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [mounted, setMounted] = useState(false);
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+    const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+    const [user, setUser] = useState<{name?: string, email?: string} | null>(null);
 
     useEffect(() => {
         setMounted(true);
+        const stored = localStorage.getItem('admin');
+        if (stored) {
+            try {
+                setUser(JSON.parse(stored));
+            } catch (e) {}
+        }
     }, []);
 
     const sidebarLinks = [
         { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+        { name: 'Recent Query', href: '/admin/dashboard/recent-query', icon: MessageSquare },
         { name: 'Vendors', href: '/admin/dashboard/vendors', icon: Store },
         { name: 'Customers', href: '/admin/dashboard/customers', icon: Users },
         { name: 'Equipment', href: '/admin/dashboard/equipment', icon: Tractor },
@@ -71,28 +81,86 @@ export default function AdminLayout({
                     })}
                 </nav>
 
-                <div className="p-4 border-t border-slate-800">
-                    <button type="button" onClick={() => { localStorage.clear(); window.location.href = '/'; }} className="w-full flex flex-row items-center px-4 py-3 text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-xl transition-all group">
-                        <LogOut size={20} className="mr-3 text-slate-500 group-hover:text-red-400 transition-colors" />
-                        Logout
-                    </button>
-                </div>
             </aside>
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-                {/* Mobile Header */}
-                <header className="bg-white shadow-sm lg:hidden flex items-center p-4">
-                    <button onClick={() => setIsSidebarOpen(true)} className="text-gray-500 hover:text-gray-700">
-                        <Menu size={24} />
-                    </button>
-                    <span className="ml-4 font-semibold text-gray-900">AgriRentX Admin</span>
+                {/* Header */}
+                <header className="bg-white shadow-sm flex items-center justify-between p-4 z-10 w-full shrink-0 relative h-[72px]">
+                    <div className="flex items-center">
+                        <button onClick={() => setIsSidebarOpen(true)} className="lg:hidden text-gray-500 hover:text-gray-700 mr-4">
+                            <Menu size={24} />
+                        </button>
+                        <span className="font-semibold text-gray-900 lg:hidden">AgriRentX Admin</span>
+                    </div>
+
+                    {/* Top Right Profile Dropdown */}
+                    <div className="relative">
+                        <button 
+                            onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                            className="flex items-center gap-2 hover:bg-slate-50 p-2 rounded-lg transition-colors border border-transparent hover:border-slate-100"
+                        >
+                            <div className="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold border border-brand-200 uppercase">
+                                {user?.name ? user.name.charAt(0) : 'A'}
+                            </div>
+                            <span className="text-sm font-medium text-slate-700 hidden sm:block">{user?.name || 'Admin User'}</span>
+                            <ChevronDown size={16} className="text-slate-400" />
+                        </button>
+
+                        {showProfileDropdown && (
+                            <>
+                                <div className="fixed inset-0 z-40" onClick={() => setShowProfileDropdown(false)}></div>
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1 z-50 transform origin-top-right transition-all">
+                                    <div className="px-4 py-3 border-b border-slate-100 mb-1">
+                                        <p className="text-sm font-medium text-slate-900">{user?.name || 'Admin User'}</p>
+                                        <p className="text-xs text-slate-500 truncate">{user?.email || 'admin@agrirentx.com'}</p>
+                                    </div>
+                                    <button className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-brand-600 transition-colors flex items-center gap-2">
+                                        <UserCircle size={16} /> My Profile
+                                    </button>
+                                    <button 
+                                        onClick={() => {
+                                            setShowProfileDropdown(false);
+                                            setShowLogoutModal(true);
+                                        }}
+                                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2"
+                                    >
+                                        <LogOut size={16} /> Logout
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </header>
 
                 <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
                     {children}
                 </main>
             </div>
+
+            {/* Logout Modal */}
+            {showLogoutModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className="bg-white p-6 rounded-2xl shadow-xl max-w-sm w-full mx-4">
+                        <h3 className="text-xl font-bold text-slate-900 mb-2">Are you sure?</h3>
+                        <p className="text-slate-500 mb-6">Do you really want to logout from your account?</p>
+                        <div className="flex justify-end space-x-3">
+                            <button 
+                                onClick={() => setShowLogoutModal(false)}
+                                className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors font-medium"
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                onClick={() => { localStorage.clear(); window.location.href = '/'; }}
+                                className="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded-lg transition-colors font-medium shadow-sm"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

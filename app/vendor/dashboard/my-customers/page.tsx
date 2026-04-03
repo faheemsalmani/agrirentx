@@ -6,7 +6,7 @@ import { useState } from 'react';
 export default function MyCustomers() {
     // Mock customer data
     const customers = [
-        { id: 1, name: 'Rahul Sharma', email: 'rahul.farmer@example.com', phone: '+91 98765 43210', location: 'Punjab, India', totalRentals: 15, lastRental: '2 Days ago', status: 'Active' },
+        { id: 1, name: 'Rahul Sharma', email: 'rahul.farmer@example.com', phone: '+91 9026684407', location: 'Punjab, India', totalRentals: 15, lastRental: '2 Days ago', status: 'Active' },
         { id: 2, name: 'Priya Singh', email: 'priya.s@example.com', phone: '+91 87654 32109', location: 'Haryana, India', totalRentals: 8, lastRental: '1 Week ago', status: 'Inactive' },
         { id: 3, name: 'Amit Verma', email: 'amit.v@example.com', phone: '+91 76543 21098', location: 'Uttar Pradesh, India', totalRentals: 22, lastRental: 'Yesterday', status: 'Active' },
         { id: 4, name: 'Suresh Kumar', email: 'suresh.k@example.com', phone: '+91 65432 10987', location: 'Madhya Pradesh, India', totalRentals: 5, lastRental: '1 Month ago', status: 'Active' },

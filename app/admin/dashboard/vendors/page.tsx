@@ -149,7 +149,7 @@ export default function VendorsPage() {
                                         <td className="px-5 py-4 text-gray-600">{v.city}</td>
                                         <td className="px-5 py-4">
                                             {v.id_proof ? (
-                                                <a href={v.id_proof || '#'} target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs">
+                                                <a href={v.id_proof?.startsWith('http') ? v.id_proof : `/${v.id_proof}`} target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs">
                                                     View Doc
                                                 </a>
                                             ) : (
