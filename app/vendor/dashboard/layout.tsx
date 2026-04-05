@@ -112,15 +112,15 @@ export default function VendorLayout({
                                         <p className="text-sm font-medium text-slate-900">{user?.owner_name || 'Vendor User'}</p>
                                         <p className="text-xs text-slate-500 truncate">{user?.email || 'vendor@agrirentx.com'}</p>
                                     </div>
-                                    <button className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                                    <Link href="/vendor/dashboard/profile" onClick={() => setShowProfileDropdown(false)} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors flex items-center gap-2">
                                         <UserCircle size={16} /> My Profile
-                                    </button>
+                                    </Link>
                                     <button
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
-                                            localStorage.clear();
-                                            window.location.href = '/';
+                                            setShowProfileDropdown(false);
+                                            setShowLogoutModal(true);
                                         }}
                                         className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2 relative z-50 cursor-pointer"
                                     >

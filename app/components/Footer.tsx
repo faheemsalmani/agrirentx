@@ -35,7 +35,7 @@ export default function Footer() {
                         <h4 className="font-bold mb-4 text-gray-200">Contact Us</h4>
                         <p className="text-sm text-gray-400 mb-2">1800-AGRI-RENT</p>
                         <p className="text-sm text-gray-400 mb-2">faheembug237@gmail.com</p>
-                        <p className="text-sm text-gray-400">New Delhi, India</p>
+                        <p className="text-sm text-gray-400">Lucknow, India</p>
                     </div>
                 </div>
 

@@ -220,3 +220,51 @@ export async function updateEquipmentStatus(equipmentId: number, status: 'Approv
     revalidatePath('/admin/dashboard');
     return { success: true, message: `Equipment ${status.toLowerCase()} successfully!` };
 }
+
+export async function updateVendor(vendorId: number, payload: any) {
+    const adminClient = getSupabaseAdmin();
+    const { error } = await adminClient.from('vendors').update(payload).eq('vendor_id', vendorId);
+    if (error) return { success: false, message: error.message };
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+}
+
+export async function deleteVendor(vendorId: number) {
+    const adminClient = getSupabaseAdmin();
+    const { error } = await adminClient.from('vendors').delete().eq('vendor_id', vendorId);
+    if (error) return { success: false, message: error.message };
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+}
+
+export async function updateCustomer(customerId: number, payload: any) {
+    const adminClient = getSupabaseAdmin();
+    const { error } = await adminClient.from('customers').update(payload).eq('customer_id', customerId);
+    if (error) return { success: false, message: error.message };
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+}
+
+export async function deleteCustomer(customerId: number) {
+    const adminClient = getSupabaseAdmin();
+    const { error } = await adminClient.from('customers').delete().eq('customer_id', customerId);
+    if (error) return { success: false, message: error.message };
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+}
+
+export async function updateEquipment(equipmentId: number, payload: any) {
+    const adminClient = getSupabaseAdmin();
+    const { error } = await adminClient.from('equipments').update(payload).eq('equipment_id', equipmentId);
+    if (error) return { success: false, message: error.message };
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+}
+
+export async function deleteEquipment(equipmentId: number) {
+    const adminClient = getSupabaseAdmin();
+    const { error } = await adminClient.from('equipments').delete().eq('equipment_id', equipmentId);
+    if (error) return { success: false, message: error.message };
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+}

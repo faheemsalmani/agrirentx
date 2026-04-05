@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus, Search, Users, Check, X, CheckCircle2, XCircle } from 'lucide-react';
+import { Plus, Search, Users, Check, X, CheckCircle2, XCircle, Edit2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { getAllCustomers } from '@/app/actions/stats';
-import { updateCustomerStatus } from '@/app/actions/admin';
+import { updateCustomerStatus, updateCustomer, deleteCustomer } from '@/app/actions/admin';
+import Modal from '@/app/components/Modal';
 
 interface Customer {
     customer_id: number;
@@ -21,6 +22,15 @@ export default function CustomersPage() {
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
+
+    const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+    const [actionModalOpen, setActionModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    
+    // Edit Form State
+    const [formData, setFormData] = useState({ name: '', email: '', mobile_number: '', city: '' });
+
 
     useEffect(() => {
         fetchCustomers();
@@ -58,6 +68,33 @@ export default function CustomersPage() {
             (c.status && c.status.toLowerCase().includes(q))
         );
     });
+
+    const openEditForm = () => {
+        if (!selectedCustomer) return;
+        setFormData({
+            name: selectedCustomer.name,
+            email: selectedCustomer.email,
+            mobile_number: selectedCustomer.mobile_number,
+            city: selectedCustomer.city,
+        });
+        setActionModalOpen(false);
+        setEditModalOpen(true);
+    };
+
+    const handleUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedCustomer) return;
+        setCustomers(customers.map(c => c.customer_id === selectedCustomer.customer_id ? { ...c, ...formData } : c));
+        setEditModalOpen(false);
+        await updateCustomer(selectedCustomer.customer_id, formData);
+    };
+
+    const handleDelete = async () => {
+        if (!selectedCustomer) return;
+        setCustomers(customers.filter(c => c.customer_id !== selectedCustomer.customer_id));
+        setDeleteModalOpen(false);
+        await deleteCustomer(selectedCustomer.customer_id);
+    };
 
     const handleApprove = async (id: number) => {
         // Optimistic update
@@ -141,16 +178,33 @@ export default function CustomersPage() {
                                 </tr>
                             ) : (
                                 filtered.map((c) => (
-                                    <tr key={c.customer_id} className="hover:bg-slate-50/60 transition-colors">
+                                    <tr 
+                                        key={c.customer_id} 
+                                        className="hover:bg-slate-50/60 transition-colors cursor-pointer"
+                                        onDoubleClick={() => {
+                                            setSelectedCustomer(c);
+                                            setActionModalOpen(true);
+                                        }}
+                                    >
                                         <td className="px-5 py-4 font-semibold text-gray-900 whitespace-nowrap">{c.name}</td>
                                         <td className="px-5 py-4 text-gray-500">{c.email}</td>
                                         <td className="px-5 py-4 whitespace-nowrap text-gray-600">{c.mobile_number}</td>
                                         <td className="px-5 py-4 text-gray-600">{c.city}</td>
                                         <td className="px-5 py-4">
                                             {c.id_proof ? (
-                                                <a href={c.id_proof?.startsWith('http') ? c.id_proof : `/${c.id_proof}`} target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs">
-                                                    View Doc
-                                                </a>
+                                                <div className="flex items-center gap-2">
+                                                    <img
+                                                        src={c.id_proof?.startsWith('http') ? c.id_proof : `/${c.id_proof}`}
+                                                        alt="ID Proof"
+                                                        className="w-8 h-8 rounded object-cover bg-gray-100 border border-gray-200"
+                                                        onError={(img) => {
+                                                            img.currentTarget.style.display = 'none';
+                                                        }}
+                                                    />
+                                                    <a href={c.id_proof?.startsWith('http') ? c.id_proof : `/${c.id_proof}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs">
+                                                        View Doc
+                                                    </a>
+                                                </div>
                                             ) : (
                                                 <span className="text-gray-400 text-xs text-center w-full block">N/A</span>
                                             )}
@@ -204,6 +258,59 @@ export default function CustomersPage() {
                     </div>
                 )}
             </div>
+            {/* Action Modal */}
+            <Modal isOpen={actionModalOpen} onClose={() => setActionModalOpen(false)} title="Manage Customer">
+                <div className="flex flex-col gap-3">
+                    <button 
+                        onClick={openEditForm}
+                        className="flex items-center justify-center gap-2 w-full py-3 bg-brand-50 text-brand-700 hover:bg-brand-100 rounded-xl font-semibold transition-colors"
+                    >
+                        <Edit2 size={18} /> Edit Customer
+                    </button>
+                    <button 
+                        onClick={() => { setActionModalOpen(false); setDeleteModalOpen(true); }}
+                        className="flex items-center justify-center gap-2 w-full py-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl font-semibold transition-colors"
+                    >
+                        <Trash2 size={18} /> Delete Customer
+                    </button>
+                </div>
+            </Modal>
+
+            {/* Edit Modal */}
+            <Modal isOpen={editModalOpen} onClose={() => setEditModalOpen(false)} title="Edit Customer">
+                <form onSubmit={handleUpdate} className="space-y-4">
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Name</label>
+                        <input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500" required />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Email</label>
+                        <input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500" required />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Mobile</label>
+                        <input type="tel" value={formData.mobile_number} onChange={e => setFormData({ ...formData, mobile_number: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500" required />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">City</label>
+                        <input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500" required />
+                    </div>
+                    <div className="pt-4 flex justify-end">
+                        <button type="submit" className="bg-brand-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700 transition">Save Changes</button>
+                    </div>
+                </form>
+            </Modal>
+
+            {/* Delete Modal */}
+            <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title="Confirm Deletion">
+                <div className="space-y-4">
+                    <p className="text-gray-600 text-sm">Are you sure you want to delete this customer? This action cannot be undone.</p>
+                    <div className="flex gap-3 justify-end pt-2">
+                        <button onClick={() => setDeleteModalOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
+                        <button onClick={handleDelete} className="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors">Delete</button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 }
