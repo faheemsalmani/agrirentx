@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus, Search, Tractor, Check, X, CheckCircle2, XCircle, ImageIcon } from 'lucide-react';
+import { Plus, Search, Tractor, Check, X, CheckCircle2, XCircle, ImageIcon, Edit2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { getAllEquipments } from '@/app/actions/stats';
+import { updateEquipment, deleteEquipment } from '@/app/actions/admin';
+import Modal from '@/app/components/Modal';
 
 interface Equipment {
     equipment_id: number;
@@ -20,6 +22,15 @@ export default function EquipmentPage() {
     const [equipments, setEquipments] = useState<Equipment[]>([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
+
+    const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
+    const [actionModalOpen, setActionModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    
+    // Edit Form State
+    const [formData, setFormData] = useState({ equipment_name: '', type: '', price_per_day: 0 });
+
 
     useEffect(() => {
         fetchEquipments();
@@ -49,6 +60,32 @@ export default function EquipmentPage() {
             (e.type && e.type.toLowerCase().includes(q))
         );
     });
+
+    const openEditForm = () => {
+        if (!selectedEquipment) return;
+        setFormData({
+            equipment_name: selectedEquipment.equipment_name,
+            type: selectedEquipment.type,
+            price_per_day: selectedEquipment.price_per_day,
+        });
+        setActionModalOpen(false);
+        setEditModalOpen(true);
+    };
+
+    const handleUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedEquipment) return;
+        setEquipments(equipments.map(eq => eq.equipment_id === selectedEquipment.equipment_id ? { ...eq, ...formData } : eq));
+        setEditModalOpen(false);
+        await updateEquipment(selectedEquipment.equipment_id, formData);
+    };
+
+    const handleDelete = async () => {
+        if (!selectedEquipment) return;
+        setEquipments(equipments.filter(eq => eq.equipment_id !== selectedEquipment.equipment_id));
+        setDeleteModalOpen(false);
+        await deleteEquipment(selectedEquipment.equipment_id);
+    };
 
     return (
         <div className="space-y-6">
@@ -118,7 +155,14 @@ export default function EquipmentPage() {
                                 </tr>
                             ) : (
                                 filtered.map((e) => (
-                                    <tr key={e.equipment_id} className="hover:bg-slate-50/60 transition-colors">
+                                    <tr 
+                                        key={e.equipment_id} 
+                                        className="hover:bg-slate-50/60 transition-colors cursor-pointer"
+                                        onDoubleClick={() => {
+                                            setSelectedEquipment(e);
+                                            setActionModalOpen(true);
+                                        }}
+                                    >
                                         <td className="px-5 py-4">
                                             {e.image_url && !e.image_url.startsWith('placeholder') ? (
                                                 <img
@@ -164,6 +208,55 @@ export default function EquipmentPage() {
                     </div>
                 )}
             </div>
+            {/* Action Modal */}
+            <Modal isOpen={actionModalOpen} onClose={() => setActionModalOpen(false)} title="Manage Equipment">
+                <div className="flex flex-col gap-3">
+                    <button 
+                        onClick={openEditForm}
+                        className="flex items-center justify-center gap-2 w-full py-3 bg-brand-50 text-brand-700 hover:bg-brand-100 rounded-xl font-semibold transition-colors"
+                    >
+                        <Edit2 size={18} /> Edit Equipment
+                    </button>
+                    <button 
+                        onClick={() => { setActionModalOpen(false); setDeleteModalOpen(true); }}
+                        className="flex items-center justify-center gap-2 w-full py-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl font-semibold transition-colors"
+                    >
+                        <Trash2 size={18} /> Delete Equipment
+                    </button>
+                </div>
+            </Modal>
+
+            {/* Edit Modal */}
+            <Modal isOpen={editModalOpen} onClose={() => setEditModalOpen(false)} title="Edit Equipment">
+                <form onSubmit={handleUpdate} className="space-y-4">
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Equipment Name</label>
+                        <input type="text" value={formData.equipment_name} onChange={e => setFormData({ ...formData, equipment_name: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500" required />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Type</label>
+                        <input type="text" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500" required />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Price / Day (₹)</label>
+                        <input type="number" value={formData.price_per_day} onChange={e => setFormData({ ...formData, price_per_day: Number(e.target.value) })} className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500" required />
+                    </div>
+                    <div className="pt-4 flex justify-end">
+                        <button type="submit" className="bg-brand-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700 transition">Save Changes</button>
+                    </div>
+                </form>
+            </Modal>
+
+            {/* Delete Modal */}
+            <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title="Confirm Deletion">
+                <div className="space-y-4">
+                    <p className="text-gray-600 text-sm">Are you sure you want to delete this equipment? This action cannot be undone.</p>
+                    <div className="flex gap-3 justify-end pt-2">
+                        <button onClick={() => setDeleteModalOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
+                        <button onClick={handleDelete} className="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors">Delete</button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 }

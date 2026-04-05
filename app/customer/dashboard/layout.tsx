@@ -121,9 +121,9 @@ export default function CustomerLayout({
                                         <p className="text-sm font-medium text-slate-900">{user?.name || 'Customer User'}</p>
                                         <p className="text-xs text-slate-500 truncate">{user?.email || 'customer@example.com'}</p>
                                     </div>
-                                    <button className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-emerald-600 transition-colors flex items-center gap-2">
+                                    <Link href="/customer/dashboard/profile" onClick={() => setShowProfileDropdown(false)} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-emerald-600 transition-colors flex items-center gap-2">
                                         <UserCircle size={16} /> My Profile
-                                    </button>
+                                    </Link>
                                     <button 
                                         onClick={() => {
                                             setShowProfileDropdown(false);
